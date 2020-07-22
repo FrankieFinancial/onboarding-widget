@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>Frankie Financial Demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+    <script src="./ff-onboarding-widget.min.js"></script>
+  </head>
+  <body style="margin: 0">
+    <div style="display: flex; height: 900px; font-family: roboto">
+      <div style="flex: 1 1 auto; background: #7b94c1; color: white">
+        <h1 style="margin-top: 180px; margin-left: 120px"><%= title %></h1>
+      </div>
+      <ff-onboarding-widget style="box-shadow: 0 0 40px -20px black;" width="500px" height="900px" ff="<%= ffToken %>" config="<%- encodeURI(JSON.stringify(widgetConfiguration)) %>"></ff-onboarding-widget>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "frankie-self-onboarding-widget-documentation",
+  "version": "1.0.0",
+  "description": "## Table of contents",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/kycutility/onboarding-widget-docs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/kycutility/onboarding-widget-docs#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.3",
+    "express": "^4.17.1"
+  }
+}
