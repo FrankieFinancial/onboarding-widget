@@ -69,8 +69,8 @@ Example in Node + Express + Axios
   const frankieUrl = process.env.FRANKIE_API_URL;
   axios.post(`${frankieUrl}/auth/v1/machine-session`, {}, {
     headers: { authorization: "machine " + encodedCredentials }
-  }).then(data => {
-    const headers = data.headers;
+  }).then(response => {
+    const headers = response.headers;
     const ffToken = headers.token;
     // pass the extracted token to the widget as an html attribute called 'ff' (see demo.ejs)
     res.render('the-web-page.ejs', {
