@@ -6,11 +6,11 @@
 - [Getting started](#getting-started)
 - [Configuration](#configuration)
 
-You can execute a quick Expressjs demo by runnig
+You can execute a quick ExpressJS demo by runnig
 ```shell
 npm start
 ```
-It's necessary to have a .env file with the following variables
+It's necessary to have a .env file in the root folder with the following variables
 ```
 FRANKIE_API_KEY=...
 FRANKIE_CUSTOMER_ID=...
