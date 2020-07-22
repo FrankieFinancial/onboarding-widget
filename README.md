@@ -27,6 +27,9 @@ A embedable widget to bring a self onboarding form to any web page...
 1.  Some feature
 2.  Another feature
 
+
+Document selection
+
 ![](screenshots/document-selection.png)
 # Getting started
 
@@ -135,8 +138,15 @@ progressBar: boolean
 
 ```
 
+Default welcome screen
+
 ![](screenshots/welcome-screen.png)
 
+## Passing the configuration object to the widget
+Since HTML attributes can only be strings, the configuration object needs to be serialised and URI encoded before it's included in the attribute **config**
+```javascript
+encodeURI(JSON.stringify(widgetConfiguration));
+```
 
 ```javascript
   const widgetConfiguration = {
