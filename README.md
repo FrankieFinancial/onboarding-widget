@@ -11,7 +11,7 @@
 A embedable widget to bring a self onboarding form to any web page...
 
 **Features**:
-1. Some feature
+1. Some feature  
 2. Another feature
 
 ![](screenshots/document-selection.png)
@@ -19,18 +19,18 @@ A embedable widget to bring a self onboarding form to any web page...
 
 
 
-1. Serialise and base64 encode your Frankie Api Credentials using ":" as a separator and POST it to Frankie Financial Client Api (details in the code snippet below)
-a. "CUSTOMER_ID:API_KEY", if you don't have a CUSTOMER_CHILD_ID
-b. "CUSTOMER_ID:CUSTOMER_CHILD_ID:API_KEY, otherwise
-2. The response header will contain a temporary api token
-2. Define your optional configuration object, according to the section [Configuration](#configuration)
-3. Add both the link to the Roboto font and the widget .js file to the head of the webpage
-4. Add the web component to the page, passing the following attributes
-a. **ff**, the token
-b. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request  their details aftwerwards, both via Frankie API and Frankie Portal
-c. *optional* **width**, the width exactly as would be defined in css (defaults to 375px)
-d. *optional* **height**, the height exactly as would be defined in css (defaults to 812px)
-e. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI
+1. Serialise and base64 encode your Frankie Api Credentials using ":" as a separator and POST it to Frankie Financial Client Api (details in the code snippet below)  
+a. "CUSTOMER_ID:API_KEY", if you don't have a CUSTOMER_CHILD_ID  
+b. "CUSTOMER_ID:CUSTOMER_CHILD_ID:API_KEY, otherwise  
+2. The response header will contain a temporary api token  
+2. Define your optional configuration object, according to the section [Configuration](#configuration)  
+3. Add both the link to the Roboto font and the widget .js file to the head of the webpage  
+4. Add the web component to the page, passing the following attributes  
+a. **ff**, the token  
+b. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request  their details aftwerwards, both via Frankie API and Frankie Portal  
+c. *optional* **width**, the width exactly as would be defined in css (defaults to 375px)  
+d. *optional* **height**, the height exactly as would be defined in css (defaults to 812px)  
+e. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI  
 
 
 ## 1. Obtaining an API token
@@ -133,7 +133,7 @@ successScreen: {
       htmlContent: `
         <h1 class='title'>The title</h1>
         <p class='bold'>We need to collect some personal information to verify your identity before we can open your account.</p>
-        <p class='bold'>Youâ€™ll need</p>
+        <p class='bold'>You’ll need</p>
         <ul style=''>
           <li>5 mins of your time to complete this application</li>
           <li>You must be over 16 years of age</li>
