@@ -24,26 +24,26 @@ FRANKIE_API_URL=...
 A embedable widget to bring a self onboarding form to any web page...
 
 **Features**:
-1. Some feature
-2. Another feature
+1.  Some feature
+2.  Another feature
 
 ![](screenshots/document-selection.png)
 # Getting started
 
 
 
-1. Serialise and base64 encode your Frankie Api Credentials using ":" as a separator and POST it to Frankie Financial Client Api (details in the code snippet below)
-a. "CUSTOMER_ID:API_KEY", if you don't have a CUSTOMER_CHILD_ID
-b. "CUSTOMER_ID:CUSTOMER_CHILD_ID:API_KEY, otherwise
-2. The response header will contain a temporary api token
-2. Define your optional configuration object, according to the section [Configuration](#configuration)
-3. Add both the link to the Roboto font and the widget .js file to the head of the webpage
-4. Add the web component to the page, passing the following attributes
-a. **ff**, the token
-b. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request  their details aftwerwards, both via Frankie API and Frankie Portal
-c. *optional* **width**, the width exactly as would be defined in css (defaults to 375px)
-d. *optional* **height**, the height exactly as would be defined in css (defaults to 812px)
-e. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI. [Configuration](#configuration)
+1.  Serialise and base64 encode your Frankie Api Credentials using ":" as a separator and POST it to Frankie Financial Client Api (details in the code snippet below)
+    1.  "CUSTOMER_ID:API_KEY", if you don't have a CUSTOMER_CHILD_ID
+    2.  "CUSTOMER_ID:CUSTOMER_CHILD_ID:API_KEY, otherwise
+2.  The response header will contain a temporary api token
+3.  Define your optional configuration object, according to the section [Configuration](#configuration)
+4.  Add both the link to the Roboto font and the widget .js file to the head of the webpage
+5.  Add the web component to the page, passing the following attributes
+    1.  **ff**, the token
+    2.  **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request  their details aftwerwards, both via Frankie API and Frankie Portal
+    3.  *optional* **width**, the width exactly as would be defined in css (defaults to 375px)
+    4.  *optional* **height**, the height exactly as would be defined in css (defaults to 812px)
+    5.  *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI. [Read more](#configuration)
 
 
 ## 1. Obtaining an API token
@@ -103,9 +103,9 @@ More configurations and customisations will be available soon. Right now our goa
 - [x] Customize/Disable Welcome Screen
 - [x] Customize accepted document types
 - [x] Customize maximum attempt count
-- [x] Customize text throughout the widget
 - [x] Hide the progress bar
 - [x] Customize success page redirect url
+- [ ] Customize text throughout the widget
 - [ ] Customize font
 - [ ] Customize all styles freely
 - [ ] Customize success page content
@@ -116,11 +116,11 @@ More configurations and customisations will be available soon. Right now our goa
 ## All current options and their defaults
 ```typescript
 documentTypes: DocType[] = ['PASSPORT', 'DRIVERS_LICENCE', 'MEDICARE'],
-welcomeScreen: {
+welcomeScreen: boolean | {
   // html string to be displayed in the welcome screen. It accepts style tags, but script tags will be stripped out.
   // the default welcome screen is available in the screenshot after this section
   htmlContent: string | boolean = false,
-  ctaText: string = "Start Identity Verification"
+  ctaText: boolean | string = "Start Identity Verification"
 }
 // the number of times the applicant will be allowed to review personal details and try new documents before failing their application
 maxAttemptCount: number = 5
@@ -131,7 +131,7 @@ successScreen: {
   // you can always include the applicant-reference as a query parameter to continue any remaining onboarding steps that might come after the identity verification
   ctaUrl: string | false = false;
 }
-
+progressBar: boolean
 
 ```
 
