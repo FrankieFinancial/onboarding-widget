@@ -18,21 +18,21 @@ app.get('/', (req, res) => {
   const widgetConfiguration = {
     documentTypes: ['PASSPORT', 'DRIVERS_LICENCE', 'MEDICARE'],
     welcomeScreen: {
-      htmlContent: `
-        <h1 class='title'>The title</h1>
-        <p class='bold'>We need to collect some personal information to verify your identity before we can open your account.</p>
-        <p class='bold'>You’ll need</p>
-        <ul style=''>
-          <li>5 mins of your time to complete this application</li>
-          <li>You must be over 16 years of age</li>
-        </ul>
-        <style>
-          ul {
-            list-style-image: url(/bullet.png);
-          }
-        </style>
-      `,
-      ctaLabel: 'Start now',
+      // htmlContent: `
+      //   <h1 class='title'>The title</h1>
+      //   <p class='bold'>We need to collect some personal information to verify your identity before we can open your account.</p>
+      //   <p class='bold'>You’ll need</p>
+      //   <ul style=''>
+      //     <li>5 mins of your time to complete this application</li>
+      //     <li>You must be over 16 years of age</li>
+      //   </ul>
+      //   <style>
+      //     ul {
+      //       list-style-image: url(/bullet.png);
+      //     }
+      //   </style>
+      // `,
+      // ctaLabel: 'Start now',
     },
     maxAttemptCount: 5,
   };
@@ -46,7 +46,8 @@ app.get('/', (req, res) => {
   // Include the encoded credentials in the "authorization" header, as follows
   // "authorization": `machine ${encodedCreentials}`
   // and extract the header "token" from the response
-  axios.post(`http://localhost:8000/auth/v1/machine-session`, {}, {
+  const frankieUrl = process.env.FRANKIE_API_URL;
+  axios.post(`${frankieUrl}/auth/v1/machine-session`, {}, {
     headers: { authorization: "machine " + encodedCredentials }
   }).then(data => {
     const headers = data.headers;
