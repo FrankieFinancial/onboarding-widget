@@ -42,7 +42,7 @@ a. **ff**, the token
 b. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request  their details aftwerwards, both via Frankie API and Frankie Portal
 c. *optional* **width**, the width exactly as would be defined in css (defaults to 375px)
 d. *optional* **height**, the height exactly as would be defined in css (defaults to 812px)
-e. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI
+e. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI. [Configuration](#configuration)
 
 
 ## 1. Obtaining an API token
@@ -93,8 +93,7 @@ Body of the html page, wherever desired
 <body style="margin: 0">
   <ff-onboarding-widget
     width="500px" height="900px"
-    ff="<%= ffToken %>"
-    config="<%- encodeURI(JSON.stringify(widgetConfiguration)) %>"></ff-onboarding-widget>
+    ff="<%= ffToken %>"></ff-onboarding-widget>
 </body>
 ```
 
@@ -111,6 +110,7 @@ More configurations and customisations will be available soon. Right now our goa
 - [ ] Customize success page content
 - [ ] Customize progress bar range, start value and end value
 - [ ] Dispatch events on every step of the progress of the user to allow greater interaction between the host platform and the widget
+- [ ] Create public credentials that can be used directly by the frontend, with no backend required
 
 ## All current options and their defaults
 ```typescript
@@ -138,7 +138,6 @@ successScreen: {
 
 
 ```javascript
-// Optionally set widget options as defined in "Configuration", as well as their default values. All entries are optional.
   const widgetConfiguration = {
     documentTypes: ['PASSPORT', 'DRIVERS_LICENCE', 'MEDICARE'],
     welcomeScreen: {
@@ -160,4 +159,12 @@ successScreen: {
     },
     maxAttemptCount: 5,
   };
-  ```
+```
+```html
+<body style="margin: 0">
+  <ff-onboarding-widget
+    width="500px" height="900px"
+    ff="<%= ffToken %>"
+    config="<%- encodeURI(JSON.stringify(widgetConfiguration)) %>"></ff-onboarding-widget>
+</body>
+```
