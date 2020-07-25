@@ -8,7 +8,7 @@
 - [Step 1. Obtaining a token](#obtaining-a-token)
 - [Step 2. Embedding the widget](#embedding-the-widget)
 - [Step 3. Configuration](#configuration)
-- [Help with obtaining a Google API key](to-obtain-a-google-API-key)
+- [Help with obtaining a Google API key](#obtaining-a-google-api-key)
 
 ## Overview
 
