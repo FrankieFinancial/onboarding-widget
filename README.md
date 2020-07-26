@@ -40,7 +40,7 @@ The Web Component in "demo" mode is configured to not expect authentication and 
 
 *If your Frankie service URL doesn't include your organisation's name as a subdomain, there's no extra configuration step.*
 
-Now, first create a .env file with the following variables
+1) Now, first create a .env file with the following variables
 
 ```shell
 FRANKIE_API_KEY=...
@@ -49,7 +49,7 @@ FRANKIE_CUSTOMER_CHILD_ID=... <only required if you have one>
 FRANKIE_API_URL=...
 ```
 
-Then generate ssl keys, server.cert and server.key, in the root of this project to allow running a secure server locally
+2) Then generate ssl keys, server.cert and server.key, in the root of this project to allow running a secure server locally
 
 **ON MACOS** you can simply run the following helper and answer all the questions to generate the ssl keys
 
@@ -57,7 +57,7 @@ Then generate ssl keys, server.cert and server.key, in the root of this project 
 npm run mk-ssl
 ```
 
-and then, to run the demo script
+3) and then, to run the demo script
 
 ```shell
 npm install
@@ -76,9 +76,9 @@ The high level flow of how to use the onboard widget is as follows:
 
 You will first be required to call the Frankie Financial API to obtain a token that the widget will use to access the Frankie service.
 
-You then embed the widget code (see below), along with the token obtained and any additional [configuration](#configuration) you desire into your web page you're done.
+You then embed the widget code (see below), along with the token obtained and any additional [configuration](#configuration) you desire into your web page and you're done.
 
-The widget will be actived once the page is rendered and the user will be guided through the information gathering process. You
+The widget will be actived once the page is rendered and the user will be guided through the information gathering process.
 
 Once completed, the widget will then return control to you by redirecting to a URL of your choice - specified in [configuration](#configuration)
 
@@ -97,7 +97,7 @@ authorization machine {encoded credentials}
 
 3. The response header will contain a temporary api token in the header parameter "token"
 ```
-header {Frankie generated token}
+token: {Frankie generated token}
 ```
 
 ### Example: Obtaining an API token
