@@ -36,12 +36,11 @@ The Web Component in "demo" mode is configured to not expect authentication and 
 
 **IF you have Frankie Credentials** and have been supplied a Frankie Service URL
 
-Some organisations will have a dedicated environment with their own specific Frankie URL endpoint. You will be required to include thei URL in the [configuration object](#configuration) 
+*Some organisations will have a dedicated environment with their own specific Frankie URL endpoint. You will be required to include that URL in the [configuration object](#configuration)*
 
-If your service URL doesn't include your organisation's name as a subdomain, there's no extra step.
+*If your Frankie service URL doesn't include your organisation's name as a subdomain, there's no extra configuration step.*
 
-
-First create a .env file with the following variables
+Now, first create a .env file with the following variables
 
 ```shell
 FRANKIE_API_KEY=...
@@ -50,7 +49,7 @@ FRANKIE_CUSTOMER_CHILD_ID=... <only required if you have one>
 FRANKIE_API_URL=...
 ```
 
-Generate ssl keys, server.cert and server.key, in the root of this project to allow running a secure server locally
+Then generate ssl keys, server.cert and server.key, in the root of this project to allow running a secure server locally
 
 **ON MACOS** you can simply run the following helper and answer all the questions to generate the ssl keys
 
