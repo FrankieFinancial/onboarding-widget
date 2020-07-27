@@ -95,9 +95,11 @@ Follow these steps to obtain a token.
 ```
 authorization: machine {encoded credentials}
 ```
-**In the request's body, include a field "referrer" with the pattern in a string compatible with javascript regex. This pattern will be used to match the url from which calls can be made using the token**
+**Optionally, include a field "referrer" in the request's body, with the pattern in a string compatible with javascript regex. This pattern will be used to verify the domain name of the url from which calls can be made using the token**
 
-*This string will be surrounded by ^ and $, so the pattern needs to match the full domain name (see image below). You can test your pattern in [Regex101](https://regex101.com/)
+*This string will be surrounded by ^ and $ and then matched against the domain name only, so the pattern needs to match the full domain name, excluding protocol or subdomains (see image below). You can test your pattern in [Regex101](https://regex101.com/)*
+
+While not required, this option is highly recommended, as it secures your short lived token from being used from unknown sources. The only reason not to use it is in case your frontend is configured not to send Referer (sic) headers. [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy).
 
 ```
 {
