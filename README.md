@@ -19,7 +19,7 @@ They will provide their minimum basic information, we will run all the checks yo
 - With those in hand you'll be able to authenticate to our backend service and generate a secure temporary token that will allow the widget to connect to Frankie Services with limited permissions.
 - Now you only need to provide the widget with that token and optional configuration to customise the widget's behaviour to your own goals
 
-*Simply put, the widget is just a reusable Web Component provides a secure process of information capture as shown below. Frankie will provide you with a hosted version of the Widget, or you can extract it from this repository and host it yourself*
+*Simply put, the widget is just a reusable Web Component that provides a secure process of information capture as shown below. It can be hosted by Frankie, which we will provide a URL for, or by you, which you can extract it from this repository and host it anywhere*
 
 
 ## Demo
