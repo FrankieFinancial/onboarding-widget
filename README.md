@@ -67,15 +67,39 @@ npm run start
 
 ## Getting started
 
-1. Serialise and base64 encode your Frankie Api Credentials using ":" as a separator and POST it to Frankie Financial Client Api (details in the code snippet below)
-    1. "CUSTOMER_ID:API_KEY", if you don't have a CUSTOMER_CHILD_ID
-    2. "CUSTOMER_ID:CUSTOMER_CHILD_ID:API_KEY, otherwise
-2. The response header will contain a temporary api token
-3. Define your optional configuration object, according to the section [Configuration](#configuration)
-4. Add both the link to the Roboto font and the widget .js file to the head of the webpage
-5. Add the web component to the page, passing the following attributes
+1. Serialise and base64 encode your Frankie Api Credentials using ":" as a separator
+    - "CUSTOMER_ID:API_KEY", if you don't have a CUSTOMER_CHILD_ID
+    - "CUSTOMER_ID:CUSTOMER_CHILD_ID:API_KEY" if you do
+2. Post the credentials in the header parameter "authorization" to ${frankieUrl}/auth/v1/machine-session with an optional (but recommended) *referrer* field in the JSON body
+
+Header
+```
+authorization: machine {encoded credentials}
+```
+**Optionally include a field "referrer" in the request's body, with the pattern to be used to verify the domain name of the url from which calls can be made using the token**
+
+*The pattern needs to be a string compatible with javascript regex. It will be surrounded with ^ and $ and then matched against the domain name only, so the pattern needs to match the full domain name, excluding protocol or subdomains (see image below). You can test your pattern in [Regex101](https://regex101.com/)*.
+
+![Url Structure](screenshots/domain-structure.png)
+
+While not required, this option is highly recommended, as it secures your short lived token from being used from unknown sources. The only reason not to use it is in case your frontend is configured not to send Referer (sic) headers. [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy).
+
+Body
+```
+{
+    "referrer": "the-company.com" || "the-company.(io|com)(.au)?"
+}
+```
+3. The response will contain a short lived api token in the header parameter "token"
+*This token is valid for 1 hour and is updated on each successful call to the backend.*
+```
+token: {Frankie generated token}
+```
+4. Define your optional configuration object, according to the section [Configuration](#configuration)
+5. Add both the link to the Roboto font and the widget .js file to the head of the webpage
+6. Add the web component to the page, passing the following attributes
     1. **ff**, the token
-    2. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request  their details aftwerwards, both via Frankie API and Frankie Portal
+    2. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request their details aftwerwards, both via Frankie API and Frankie Portal
     3. *optional* **width**, the width exactly as would be defined in css (defaults to 375px)
     4. *optional* **height**, the height exactly as would be defined in css (defaults to 812px)
     5. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI. [Read more](#configuration)
