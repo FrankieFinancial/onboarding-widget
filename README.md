@@ -93,7 +93,16 @@ Follow these steps to obtain a token.
 
 2. Post the credentials to ${frankieUrl}/auth/v1/machine-session in the header parameter "authorization"
 ```
-authorization machine {encoded credentials}
+authorization: machine {encoded credentials}
+```
+**In the request's body, include a field "referrer" with the pattern in a string compatible with javascript regex. This pattern will be used to match the url from which calls can be made using the token**
+
+*This string will be surrounded by ^ and $, so the pattern needs to match the full domain name (see image below). You can test your pattern in [Regex101](https://regex101.com/)
+
+```
+{
+"referrer": "the-company.com" || "the-company.(io|com)(.au)?"
+}
 ```
 
 3. The response header will contain a temporary api token in the header parameter "token"
