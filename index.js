@@ -20,7 +20,9 @@ app.get('/', (req, res) => {
   const widgetConfiguration = {
     documentTypes: ['PASSPORT', 'DRIVERS_LICENCE', 'NATIONAL_HEALTH_ID'],
     maxAttemptCount: 5,
-    googleAPIKey: process.env.GOOGLE_API || false
+    googleAPIKey: process.env.GOOGLE_API || false,
+    frankieBackendUrl: process.env.FRANKIE_API_URL,
+    checkProfile: process.env.CHECK_PROFILE
   };
   // Serialize your credentials, by joining them with a ":" separator symbol
   //  customerId:customerChildId:apiKey OR customerId:apiKey
