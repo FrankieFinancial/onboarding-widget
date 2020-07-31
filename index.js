@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
         customerChildId = process.env.FRANKIE_CUSTOMER_CHILD_ID;
   // Set widget configurations as defined in "Configuration"
   const widgetConfiguration = {
-    documentTypes: ['PASSPORT', 'DRIVERS_LICENCE', 'MEDICARE'],
+    documentTypes: ['PASSPORT', 'DRIVERS_LICENCE', 'NATIONAL_HEALTH_ID'],
     maxAttemptCount: 5,
   };
   // Serialize your credentials, by joining them with a ":" separator symbol

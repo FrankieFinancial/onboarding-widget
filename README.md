@@ -56,6 +56,9 @@ Generate ssl keys, server.cert and server.key, in the root of this project to al
 npm run mk-ssl
 ```
 
+**Other OS**
+[https://github.com/FiloSottile/mkcert](https://github.com/FiloSottile/mkcert)
+
 and then, to run the demo script
 
 ```shell
