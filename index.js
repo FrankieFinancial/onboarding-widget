@@ -22,7 +22,8 @@ app.get('/', (req, res) => {
     maxAttemptCount: 5,
     googleAPIKey: process.env.GOOGLE_API || false,
     frankieBackendUrl: process.env.FRANKIE_API_URL,
-    checkProfile: process.env.CHECK_PROFILE
+    checkProfile: process.env.CHECK_PROFILE,
+    acceptedCountries: ["AUS", "NZL"]
   };
   // Serialize your credentials, by joining them with a ":" separator symbol
   //  customerId:customerChildId:apiKey OR customerId:apiKey
