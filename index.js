@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
         customerChildId = process.env.FRANKIE_CUSTOMER_CHILD_ID;
   // Set widget configurations as defined in "Configuration"
   const widgetConfiguration = {
+    mode: process.env.NODE_ENV,
     documentTypes: ['PASSPORT', 'DRIVERS_LICENCE', 'NATIONAL_HEALTH_ID'],
     maxAttemptCount: 5,
     googleAPIKey: process.env.GOOGLE_API || false,
