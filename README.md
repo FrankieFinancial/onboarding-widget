@@ -204,8 +204,8 @@ More configurations and customisations will be available soon. Right now our goa
 ## All current options and their defaults
 
 ```typescript
-// not necessary to change this options. It's simply a switch between "demo" and "production"
-mode: 'demo' | 'production' = "production",
+// not necessary to change this options. It's simply a switch between "development", "demo" and "production"
+mode: 'demo' | 'production' | 'development' = 'production',
 // if your organisation has a special Frankie Backend URL, provide it here. If that's not your case, skip this configuration.
 frankieBackendUrl: string = "https://defaults-to-valid-frankie-url",
 // array of accepted document types
@@ -213,28 +213,27 @@ frankieBackendUrl: string = "https://defaults-to-valid-frankie-url",
 documentTypes: DocType[] = ["PASSPORT", "DRIVERS_LICENCE", "NATIONAL_HEALTH_ID"]
 welcomeScreen: boolean | {
   // html string to be displayed in the welcome screen. It accepts style tags, but script tags will be stripped out.
-  // the default welcome screen is available in the screenshot at the end of section "Demo" above
-  htmlContent: string | boolean = false,
+  // the default welcome screen (htmlContent === null) is available in the screenshot at the end of section "Demo" above
+  htmlContent: string | false | null = null,
   ctaText: boolean | string = "Start Identity Verification"
 }
 // the number of times the applicant will be allowed to review personal details and try new documents before failing their application
 maxAttemptCount: number = 5
-// By default only a
 successScreen: {
   // url to redirect after applicant clicks button in the successful page
-  // by default the widget only displays a successful message
-  // you can always include the applicant-reference as a query parameter to continue any remaining onboarding steps that might come after the identity verification
-  // as any traditional html link, ctaUrl can also include a call to a global javascript function, "javascript:ffSuccess('string-with-applicant-reference')"
-  ctaUrl: string | false = false
+  // by default (ctaUrl === null) the widget only displays a successful message
+  // you can always include the applicant-reference as a query parameter to continue any remaining onboarding steps that might come after the identity verification.
+  // As any traditional html link, ctaUrl can also include a call to a global javascript function, "javascript:ffSuccess('string-with-applicant-reference')"
+  ctaUrl: string | null = null
   ctaText: string = 'Continue to My Account'
 }
 failureScreen: {
   // url to redirect after applicant clicks button when onboarding has failed
   // by default the widget only displays a failure message
-  // you can always include the applicant-reference as a query parameter to provide any further steps
-  // as any traditional html link, ctaUrl can also include a call to a global javascript function, "javascript:ffFailure('string-with-applicant-reference')"
-  ctaUrl: null,
-  ctaText: 'Contact Us'
+  // you can always include the applicant-reference as a query parameter to provide any further steps.
+  // As any traditional html link, ctaUrl can also include a call to a global javascript function, "javascript:ffFailure('string-with-applicant-reference')"
+  ctaUrl: string | null = null,
+  ctaText: string = 'Contact Us'
 },
 // If the progress bar should be rendered
 progressBar: boolean = true
@@ -245,11 +244,11 @@ progressBar: boolean = true
 checkProfile: string = "auto"
 // Google api key for the address auto complete. For the demo we provide our own api automatically.
 // Otherwise if this field is missing the widget will skip the address autocomplete screen.
-// More information right after this code block
+// More information right after this code bloc
 googleAPIKey: string | false =  false
-// List of up to 5 char3 country codes to include in the country dropdown and in the address autocomplete
-acceptedCountries: char3[] = ["AUS"]
-
+// List of up to 5 char3 country codes to include in the country selects in the Addresses form. Otherwise all countries will be displayed.
+// ex ["AUS", "NZL]
+acceptedCountries: char3[] | null = null
 ```
 
 ## To obtain a Google API key
