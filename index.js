@@ -16,6 +16,8 @@ app.get('/', (req, res) => {
   const apiKey = process.env.FRANKIE_API_KEY,
         customerId = process.env.FRANKIE_CUSTOMER_ID,
         customerChildId = process.env.FRANKIE_CUSTOMER_CHILD_ID;
+  // Set the applicant reference to any string you can use to identify this applicant
+  const applicantReference = Math.floor(Math.random() * 9999) + "-new-applicant";
   // Set widget configurations as defined in "Configuration"
   const widgetConfiguration = {
     mode: process.env.NODE_ENV,
@@ -24,7 +26,10 @@ app.get('/', (req, res) => {
     googleAPIKey: process.env.GOOGLE_API || false,
     frankieBackendUrl: process.env.FRANKIE_API_URL,
     checkProfile: process.env.CHECK_PROFILE,
-    acceptedCountries: ["AUS", "NZL"]
+    acceptedCountries: ["AUS", "NZL"],
+    successScreen: {
+      ctaUrl: "javascript:ffSuccess('the-applicant-reference')"
+    }
   };
   // Serialize your credentials, by joining them with a ":" separator symbol
   //  customerId:customerChildId:apiKey OR customerId:apiKey
@@ -46,7 +51,8 @@ app.get('/', (req, res) => {
     res.render('the-web-page.ejs', {
       title: "Frankie Financial Widget Demo",
       ffToken: ffToken,
-      widgetConfiguration
+      widgetConfiguration,
+      applicantReference
     });
   })
 });

@@ -31,7 +31,7 @@ npm install
 npm run start:demo
 ```
 
-The Web Component in "demo" mode is configured to not expect authentication and will always show you a successful screen in the end of the process.
+The Web Component in "demo" mode is configured to not expect authentication and will show you buttons to fake check results in the end of the process.
 
 **IF you have Frankie Credentials** and the Frankie backend URL
 
@@ -94,12 +94,16 @@ Body
 }
 ```
 3. The response will contain a short lived api token in the header parameter "token"
-*This token is valid for 1 hour and is updated on each successful call to the backend.*
+*This token is valid for 1 hour and is refreshed on each successful call to the backend.*
 ```
 token: {Frankie generated token}
 ```
-4. Define your optional configuration object, according to the section [Configuration](#configuration)
-5. Add both the link to the Roboto font and the widget .js file to the head of the webpage
+4. Define your applicant reference number and optional configuration object, according to the section [Configuration](#configuration)
+5. Add both the link to the *Roboto font* and the widget .js file to the head of the webpage. We're hosting the widget for you, but you can also host this file yourself.
+```
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<script src="{widget host}/ff-onboarding-widget.min.js"></script>
+```
 6. Add the web component to the page, passing the following attributes
     1. **ff**, the token
     2. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request their details aftwerwards, both via Frankie API and Frankie Portal
@@ -116,29 +120,42 @@ Example in Node + Express + Axios
   const apiKey = process.env.FRANKIE_API_KEY,
         customerId = process.env.FRANKIE_CUSTOMER_ID,
         customerChildId = process.env.FRANKIE_CUSTOMER_CHILD_ID;
+  // Set the applicant reference to any string you can use to identify this applicant
+  const applicantReference = Math.floor(Math.random() * 9999) + "-new-applicant";
+  // Set widget configurations as defined in "Configuration"
+  const widgetConfiguration = {
+    mode: process.env.NODE_ENV,
+    documentTypes: ['PASSPORT', 'DRIVERS_LICENCE', 'NATIONAL_HEALTH_ID'],
+    maxAttemptCount: 5,
+    googleAPIKey: process.env.GOOGLE_API || false,
+    frankieBackendUrl: process.env.FRANKIE_API_URL,
+    checkProfile: process.env.CHECK_PROFILE,
+    acceptedCountries: ["AUS", "NZL"],
+  };
   // Serialize your credentials, by joining them with a ":" separator symbol
   //  customerId:customerChildId:apiKey OR customerId:apiKey
   //  where if you don't posses a customerChildId, you should omit it and the separator symbol ":" all together
   const decodedCredentials = [customerId, customerChildId, apiKey].filter(Boolean).join(":");
-  // Base64 encode the resulting string
+  // Base64 encode the result string
   const encodedCredentials = Buffer.from(decodedCredentials).toString('base64');
-  // POST the endpoint "auth/v1/machine-session" of Frankie Client Api service, whose URL will be provided to you by Frankie
+  // POST the endpoint "/machine-session" of the api service provided to you by Frankie
   // Include the encoded credentials in the "authorization" header, as follows
   // "authorization": `machine ${encodedCreentials}`
   // and extract the header "token" from the response
   const frankieUrl = process.env.FRANKIE_API_URL;
   axios.post(`${frankieUrl}/auth/v1/machine-session`, {}, {
     headers: { authorization: "machine " + encodedCredentials }
-  }).then(response => {
-    const headers = response.headers;
+  }).then(data => {
+    const headers = data.headers;
     const ffToken = headers.token;
-    // pass the extracted token to the widget as an html attribute called 'ff' (see demo.ejs)
+    // pass the extracted token to the widget as an html attribute called 'ff-token' (see demo.ejs)
     res.render('the-web-page.ejs', {
       title: "Frankie Financial Widget Demo",
-      ffToken: ffToken
+      ffToken: ffToken,
+      widgetConfiguration,
+      applicantReference
     });
   })
-
 ```
 
 ## 2. Embeding widget
@@ -159,7 +176,7 @@ Head of the html page (link to font and the js file)
 Body of the html page, wherever desired
 
 ```html
-<body style="margin: 0">
+<body>
   <ff-onboarding-widget
     width="500px" height="900px"
     ff="<%= ffToken %>"></ff-onboarding-widget>
@@ -207,8 +224,18 @@ successScreen: {
   // url to redirect after applicant clicks button in the successful page
   // by default the widget only displays a successful message
   // you can always include the applicant-reference as a query parameter to continue any remaining onboarding steps that might come after the identity verification
+  // as any traditional html link, ctaUrl can also include a call to a global javascript function, "javascript:ffSuccess('string-with-applicant-reference')"
   ctaUrl: string | false = false
+  ctaText: string = 'Continue to My Account'
 }
+failureScreen: {
+  // url to redirect after applicant clicks button when onboarding has failed
+  // by default the widget only displays a failure message
+  // you can always include the applicant-reference as a query parameter to provide any further steps
+  // as any traditional html link, ctaUrl can also include a call to a global javascript function, "javascript:ffFailure('string-with-applicant-reference')"
+  ctaUrl: null,
+  ctaText: 'Contact Us'
+},
 // If the progress bar should be rendered
 progressBar: boolean = true
 // A "profile" is a collection or recipe of rules and checks that you wish to perform on all of your customers.
@@ -263,8 +290,12 @@ Example configuration object
     }
     successScreen: {
       ctaLabel: "Create Account :)",
-      ctaUrl: "https://my-organisation.com/create-account?applicant=99-custom-applicant-id&secret-tokent=hash_to_validate_99-custom-applicant-id"
+      ctaUrl: "https://my-organisation.com/create-account?applicant=99-custom-applicant-id&secret-token=hash_to_validate_99-custom-applicant-id"
     }
+    failureScreen: {
+      ctaUrl: "https://my-organisation.com/contact-us?applicant=99-custom-applicant-id$secret-token=hash_to_validate_99-custom-applicant-id",
+      ctaText: 'Contact Us'
+    },
     progressBar: true,
     checkProfile: "customer",
     googleAPIKey: false
