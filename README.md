@@ -18,6 +18,8 @@ They will provide their minimum basic information, we will run all the checks yo
 
 Simply put, the widget is just a reusable Web Component.
 
+## Get either the .min.js or the .js file from the folder "static" in this repository
+
 ![Sequence](screenshots/sequence.png)
 
 ## Demo
@@ -99,10 +101,10 @@ Body
 token: {Frankie generated token}
 ```
 4. Define your applicant reference number and optional configuration object, according to the section [Configuration](#configuration)
-5. Add both the link to the *Roboto font* and the widget .js file to the head of the webpage. We're hosting the widget for you, but you can also host this file yourself.
+5. Add both the link to the *Roboto font* and script tag to the widget .js file to the head of the webpage.
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
-<script src="{widget host}/ff-onboarding-widget.min.js"></script>
+<script src="/ff-onboarding-widget.min.js"></script>
 ```
 6. Add the web component to the page, passing the following attributes
     1. **ff**, the token
