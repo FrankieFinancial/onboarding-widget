@@ -9,7 +9,7 @@
 
 ## Overview
 
-Our self onboarding widget allowes you to connect your final customers directly with Frankie Financial's Service.
+Our self onboarding widget allowes you to connect your customers directly with Frankie Financial's identity verification and validation services.
 They will provide their minimum basic information, we will run all the checks you choose and then signal back to you that the Applicant is ready to be onboarded, right there in the platform it's embeded.
 
 - The first step is to make sure you have credentials previously provided to your organisation by frankie: the Customer id and the api key. Some organisations will also have a Customer child id.
@@ -79,7 +79,7 @@ npm run start
 
 Header
 ```
-authorization: machine {encoded credentials}
+authorization: {encoded credentials}
 ```
 **Optionally include a field "referrer" in the request's body, with the pattern to be used to verify the domain name of the url from which calls can be made using the token**
 
