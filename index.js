@@ -28,7 +28,10 @@ app.get('/', (req, res) => {
     checkProfile: process.env.CHECK_PROFILE,
     acceptedCountries: ["AUS", "NZL"],
     successScreen: {
-      ctaUrl: "javascript:ffSuccess('the-applicant-reference')"
+      ctaUrl: "javascript:ffSuccess('Success: " + applicantReference + "')"
+    },
+    failureScreen: {
+      ctaUrl: "javascript:ffSuccess('Failure: " + applicantReference + "')"
     }
   };
   // Serialize your credentials, by joining them with a ":" separator symbol
