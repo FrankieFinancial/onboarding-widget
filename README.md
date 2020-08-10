@@ -12,9 +12,9 @@
 Our self onboarding widget allowes you to connect your customers directly with Frankie Financial's identity verification and validation services.
 They will provide their minimum basic information, we will run all the checks you choose and then signal back to you that the Applicant is ready to be onboarded, right there in the platform it's embeded.
 
-- The first step is to make sure you have credentials previously provided to your organisation by frankie: the Customer id and the api key. Some organisations will also have a Customer child id.
-- With those in hand you'll be able to authenticate to our backend service and generate a secure temporary token that will allow the widget to connect to Frankie Services with limited permissions.
-- Now you only need to provide the widget with that token and optional configuration to customise the widget's behaviour to your own goals
+- The first step is to make sure you have credentials previously provided to your organisation by Frankie: the Customer ID and the api key. Some organisations will also have a Customer child ID.
+- With those in hand you will be able to authenticate to our backend service and generate a secure temporary token that will allow the widget to connect to Frankie Services with limited permissions.
+- Now you only need to provide the widget with that token and optional configuration to customise the widget's behaviour to meet your own goals.
 
 Simply put, the widget is just a reusable Web Component.
 
@@ -24,9 +24,9 @@ Simply put, the widget is just a reusable Web Component.
 
 ## Demo
 
-To see the widget in action, just run the demo script in this repository, as follows.
+To see the widget in action, please run the demo script in this repository, as follows.
 
-**IF you don't have Frankie credentials** or wasn't provided a Frankie backend URL
+**If you don't have Frankie credentials** or were not provided a Frankie backend URL
 
 ```shell
 npm install
@@ -35,10 +35,10 @@ npm run start:demo
 
 The Web Component in "demo" mode is configured to not expect authentication and will show you buttons to fake check results in the end of the process.
 
-**IF you have Frankie Credentials** and the Frankie backend URL
+**If you have Frankie Credentials** and the Frankie backend URL
 
 Some organisations use a specific Frankie backend and will be required to include its url in the [configuration object](#configuration) \
-If your backend url doesn't include your organisation's name as a subdomain, there's no extra step.
+If your backend url does not include your organisation's name as a subdomain, there is no extra step.
 
 
 First create a .env file with the following variables
@@ -50,9 +50,9 @@ FRANKIE_CUSTOMER_CHILD_ID=... <only required if you have one>
 FRANKIE_API_URL=...
 ```
 
-Generate ssl keys, server.cert and server.key, in the root of this project to allow running a secure server locally
+Generate ssl keys, server.cert and server.key, in the root of this project to allow running a secure server locally.
 
-**ON MACOS** you can simply run the following helper and answer all the questions to generate the ssl keys
+**ON MACOS** You can simply run the following helper and answer all the questions to generate the ssl keys.
 
 ```shell
 npm run mk-ssl
@@ -87,7 +87,7 @@ authorization: machine {encoded credentials}
 
 ![Url Structure](screenshots/domain-structure.png)
 
-While not required, this option is highly recommended, as it secures your short lived token from being used from unknown sources. The only reason not to use it is in case your frontend is configured not to send Referer (sic) headers. [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy).
+Whilst not required, this option is highly recommended, as it secures your short lived token from being used from unknown sources. The only reason not to use it is in the case that your frontend is configured not to send Referer (sic) headers. [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy).
 
 Body
 ```
