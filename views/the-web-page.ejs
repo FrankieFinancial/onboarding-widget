@@ -5,18 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
     <script src="./ff-onboarding-widget.min.js"></script>
-    <script>
-      function ffSuccess(applicantReference) {
-        alert(applicantReference);
-      }
-    </script>
   </head>
   <body style="margin: 0">
     <div style="display: flex; height: 100vh; font-family: roboto">
       <div style="flex: 1 1 auto; background: #7b94c1; color: white">
         <h1 style="margin-top: 180px; margin-left: 120px"><%= title %></h1>
       </div>
-      <ff-onboarding-widget style="box-shadow: 0 0 40px -20px black;" width="500px" height="100%" applicant-reference="<%= applicantReference %>" ff="<%= ffToken %>" config="<%- encodeURI(JSON.stringify(widgetConfiguration)) %>"></ff-onboarding-widget>
+      <ff-onboarding-widget style="box-shadow: 0 0 40px -20px black;" width="500px" height="100%" ff="<%= ffToken %>" config="<%- encodeURI(JSON.stringify(widgetConfiguration)) %>"></ff-onboarding-widget>
     </div>
   </body>
 </html>
