@@ -6,17 +6,17 @@ body {
   height: 100vh;
   background: #7b94c1;
 }
-body > div {
+#content {
   height: 100%;
   width: 100%;
   display: flex;
   font-family: roboto;
 }
-body > div > div:first-child {
+#content > :first-child {
   flex: 1 1 auto;
   color: white;
 }
-body > div > :nth-child(2) {
+#content > :nth-child(2) {
   flex: 0 0 500px;
 }
 h1 {
@@ -28,12 +28,26 @@ body[responsive] {
   padding: 20px;
   box-sizing: border-box;
 }
-body[responsive] > div > div:first-child{
-  display: none;
+body[responsive] #content > :first-child{
+  height: 100px;
+  flex: 0 0 auto;
 }
-body[responsive] > div > :nth-child(2){
+body[responsive] h1{
+  margin: 20px;
+}
+body[responsive] > #content > :nth-child(2){
   flex: 1 1 auto;
 }
-body[responsive] > div {
+body[responsive] > #content {
+  flex-direction: column;
   justify-content: center;
+}
+
+@media screen and (max-width: 600px) {
+  body[responsive] {
+    padding: 0;
+  }
+  body[responsive] #content > :first-child {
+    display: none;
+  }
 }
