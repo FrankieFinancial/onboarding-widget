@@ -258,6 +258,8 @@ acceptedCountries: char3[] | null = null
 please visit the [Google Developer Console](https://console.developers.google.com/). \
 The API's that you have to enable in your Google API Manager Dashboard are **Google Maps Geocoding API, Google Places API Web Service and Google Maps Javascript API**.
 
+Keep in mind that since Google api authentication happens along with the Frankie token verificatiopn, an invalid Google API token will result in the screen for authentication failure.
+
 ## Passing the configuration object to the widget
 
 Since HTML attributes can only be strings, the configuration object needs to be serialised and URI encoded before it's included in the widget's attribute **config**
