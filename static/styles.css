@@ -37,6 +37,7 @@ body[responsive] h1{
 }
 body[responsive] > #content > :nth-child(2){
   flex: 1 1 auto;
+  box-shadow: 0 0 40px -20px black;
 }
 body[responsive] > #content {
   flex-direction: column;
