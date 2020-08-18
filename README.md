@@ -252,9 +252,9 @@ googleAPIKey: string | false =  false
 // ex ["AUS", "NZL]
 acceptedCountries: char3[] | null = null
 // Tuple of two numeric values minimumAge and maximumAge in the exact order
-ageRange: [number, number];
-// your organisation name
-organisationName: string
+ageRange: [number, number] = [18, 125];
+// Your organisation name as displayed in the data submission consent text
+organisationName: string = <Organisation name as configured during Frankie onboarding process>
 ```
 
 ## To obtain a Google API key
