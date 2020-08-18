@@ -251,6 +251,10 @@ googleAPIKey: string | false =  false
 // List of up to 5 char3 country codes to include in the country selects in the Addresses form. Otherwise all countries will be displayed.
 // ex ["AUS", "NZL]
 acceptedCountries: char3[] | null = null
+// Tuple of two numeric values minimumAge and maximumAge in the exact order
+ageRange: [number, number];
+// your organisation name
+organisationName: string
 ```
 
 ## To obtain a Google API key
@@ -300,7 +304,9 @@ Example configuration object
     progressBar: true,
     checkProfile: "customer",
     googleAPIKey: false
-    acceptedCountries: ["AUS", "NZL"]
+    acceptedCountries: ["AUS", "NZL"],
+    ageRange:[18, 125],
+    organisationName: "organisation"
   };
 
 ```
