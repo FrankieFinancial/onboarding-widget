@@ -85,13 +85,14 @@ npm run start
 1. Serialise and base64 encode your Frankie Api Credentials using ":" as a separator
     - "CUSTOMER_ID:API_KEY", if you don't have a CUSTOMER_CHILD_ID
     - "CUSTOMER_ID:CUSTOMER_CHILD_ID:API_KEY" if you do
-2. Post the credentials in the header parameter "authorization" to ${frankieUrl}/auth/v1/machine-session with an optional (but recommended) *referrer* field in the JSON body
+2. Post the credentials in the header parameter "authorization" to ${frankieUrl}/auth/v1/machine-session with an optional (but recommended) *
+* field in the JSON body
 
 Header
 ```
 authorization: machine {encoded credentials}
 ```
-**Optionally include a field "referrer" in the request's body, with the pattern to be used to verify the domain name of the url from which calls can be made using the token.The referrer sent by the browser must match the referrer URL pattern in the JWT for the widget to successfully authenticate**
+**Optionally include a field "referrer" in the request's body, with the pattern to be used to verify the url from which calls can be made using the token.The referrer sent by the browser must match the referrer URL pattern in the JWT for the widget to successfully authenticate**
 
 *The referrer is based on the Google Chrome match pattern URLs. URLs can contain wild card characters. You can read more about it here [ match pattern](https://developer.chrome.com/extensions/match_patterns)*.
 
