@@ -91,13 +91,19 @@ Header
 ```
 authorization: machine {encoded credentials}
 ```
-**Optionally include a field "referrer" in the request's body, with the pattern to be used to verify the domain name of the url from which calls can be made using the token**
+**Optionally include a field "referrer" in the request's body, with the pattern to be used to verify the domain name of the url from which calls can be made using the token.The referrer sent by the browser must match the referrer URL pattern in the JWT for the widget to successfully authenticate**
 
-*The pattern needs to be a string compatible with javascript regex. It will be surrounded with ^ and $ and then matched against the domain name only, so the pattern needs to match the full domain name, excluding protocol or subdomains (see image below). You can test your pattern in [Regex101](https://regex101.com/)*.
+*The referrer is based on the Google Chrome match pattern URLs. URLs can contain wild card characters. You can read more about it here [ match pattern](https://developer.chrome.com/extensions/match_patterns)*.
 
-![Url Structure](screenshots/domain-structure.png)
+**Permitted referrer patterns are as follows:
+![Referrer Pattern](screenshots/referrer-pattern.png)
 
-Whilst not required, this option is highly recommended, as it secures your short lived token from being used from unknown sources. The only reason not to use it is in the case that your frontend is configured not to send Referer (sic) headers. [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy).
+An example of a valid referrer is 
+```
+https://*.example.com/example_page/*
+```
+
+Whilst not required, this option is highly recommended, as it secures your short lived token from being used from unknown sources and guarantees that other malicious websites cannot reuse the JWT in case it is lost. The only reason not to use it is in the case that your frontend is configured not to send Referer (sic) headers. [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy).
 
 Body
 ```
