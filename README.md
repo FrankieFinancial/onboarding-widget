@@ -35,10 +35,20 @@ npm run start:demo
 
 The Web Component in "demo" mode is configured to not expect authentication and will show you buttons to fake check results in the end of the process.
 
-**If you have Frankie Credentials** and the Frankie backend URL
+**If you have Frankie Developer Credentials** 
 
-Some organisations use a specific Frankie backend and will be required to include its url in the [configuration object](#configuration) \
-If your backend url does not include your organisation's name as a subdomain, there is no extra step.
+If you've received your developer welcome email and welcome pack, you'll be using the demo service API which is:
+
+https://backend.demo.frankiefinancial.io
+
+You will need to pass this in to the configuration object. See details on the [configuration object](#configuration) below on how to pass this URL into the widget.
+
+
+**If you have Frankie Production Credentials** 
+
+Some organisations may be issued their own specific Frankie environment and will therefore have a dedicated URL to use. See details on the [configuration object](#configuration) below on how to pass this URL into the widget.
+
+If you're using the standard production service, there is no extra step - the default URL will go to the primary production backend service.
 
 
 First create a .env file with the following variables
