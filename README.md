@@ -251,6 +251,10 @@ googleAPIKey: string | false =  false
 // List of up to 5 char3 country codes to include in the country selects in the Addresses form. Otherwise all countries will be displayed.
 // ex ["AUS", "NZL]
 acceptedCountries: char3[] | null = null
+// Tuple of two numeric values minimumAge and maximumAge in the exact order
+ageRange: [number, number] = [18, 125];
+// Your organisation's name as displayed in the data submission consent text. Defaults to the name we have on record.
+organisationName: string = <Organisation name as configured during Frankie onboarding process>
 ```
 
 ## To obtain a Google API key
@@ -300,7 +304,9 @@ Example configuration object
     progressBar: true,
     checkProfile: "customer",
     googleAPIKey: false
-    acceptedCountries: ["AUS", "NZL"]
+    acceptedCountries: ["AUS", "NZL"],
+    ageRange:[18, 125],
+    organisationName: "organisation"
   };
 
 ```
