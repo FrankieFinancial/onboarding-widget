@@ -213,6 +213,7 @@ More configurations and customisations will be available soon. Right now our goa
 - [x] Hide the progress bar
 - [x] Customize accepted country of residence
 - [x] Customize success page redirect url
+- [ ] Reduce file size by splitting it in multiple assets hosted by Frankie.
 - [ ] Customize text throughout the widget
 - [ ] Customize font
 - [ ] Customize all styles freely
