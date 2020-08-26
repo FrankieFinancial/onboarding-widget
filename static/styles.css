@@ -1,9 +1,13 @@
 * {
   box-sizing: border-box;
 }
+html, body {
+  height: 100%;
+  width: 100%;
+  min-height: 100% !important;
+}
 body {
   margin: 0;
-  height: 100vh;
   background: #7b94c1;
 }
 #content {
