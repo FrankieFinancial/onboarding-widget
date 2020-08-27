@@ -29,10 +29,11 @@ h1 {
 }
 
 body[responsive] {
-  padding: 20px;
+  padding: 0px;
   box-sizing: border-box;
 }
 body[responsive] #content > :first-child{
+  display: none;
   height: 100px;
   flex: 0 0 auto;
 }
