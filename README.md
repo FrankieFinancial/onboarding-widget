@@ -35,10 +35,20 @@ npm run start:demo
 
 The Web Component in "demo" mode is configured to not expect authentication and will show you buttons to fake check results in the end of the process.
 
-**If you have Frankie Credentials** and the Frankie backend URL
+**If you have Frankie Developer Credentials**
 
-Some organisations use a specific Frankie backend and will be required to include its url in the [configuration object](#configuration) \
-If your backend url does not include your organisation's name as a subdomain, there is no extra step.
+If you've received your developer welcome email and welcome pack, you'll be using the demo service API which is:
+
+https://backend.demo.frankiefinancial.io
+
+You will need to pass this in to the configuration object. See details on the [configuration object](#configuration) below on how to pass this URL into the widget.
+
+
+**If you have Frankie Production Credentials**
+
+Some organisations may be issued their own specific Frankie environment and will therefore have a dedicated URL to use. See details on the [configuration object](#configuration) below on how to pass this URL into the widget.
+
+If you're using the standard production service, there is no extra step - the default URL will go to the primary production backend service.
 
 
 First create a .env file with the following variables
@@ -75,19 +85,26 @@ npm run start
 1. Serialise and base64 encode your Frankie Api Credentials using ":" as a separator
     - "CUSTOMER_ID:API_KEY", if you don't have a CUSTOMER_CHILD_ID
     - "CUSTOMER_ID:CUSTOMER_CHILD_ID:API_KEY" if you do
-2. Post the credentials in the header parameter "authorization" to ${frankieUrl}/auth/v1/machine-session with an optional (but recommended) *referrer* field in the JSON body
+2. Post the credentials in the header parameter "authorization" to ${frankieUrl}/auth/v1/machine-session with an optional (but recommended) *
+* field in the JSON body
 
 Header
 ```
 authorization: machine {encoded credentials}
 ```
-**Optionally include a field "referrer" in the request's body, with the pattern to be used to verify the domain name of the url from which calls can be made using the token**
+**Optionally include a field "referrer" in the request's body, with the pattern to be used to verify the url from which calls can be made using the token.The referrer sent by the browser must match the referrer URL pattern in the JWT for the widget to successfully authenticate**
 
-*The pattern needs to be a string compatible with javascript regex. It will be surrounded with ^ and $ and then matched against the domain name only, so the pattern needs to match the full domain name, excluding protocol or subdomains (see image below). You can test your pattern in [Regex101](https://regex101.com/)*.
+*The referrer is based on the Google Chrome match pattern URLs. URLs can contain wild card characters. You can read more about it here [ match pattern](https://developer.chrome.com/extensions/match_patterns)*.
 
-![Url Structure](screenshots/domain-structure.png)
+**Permitted referrer patterns are as follows:
+![Referrer Pattern](screenshots/referrer-pattern.png)
 
-Whilst not required, this option is highly recommended, as it secures your short lived token from being used from unknown sources. The only reason not to use it is in the case that your frontend is configured not to send Referer (sic) headers. [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy).
+An example of a valid referrer is
+```
+https://*.example.com/example_page/*
+```
+
+Whilst not required, this option is highly recommended, as it secures your short lived token from being used from unknown sources and guarantees that other malicious websites cannot reuse the JWT in case it is lost. The only reason not to use it is in the case that your frontend is configured not to send Referer (sic) headers. [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy).
 
 Body
 ```
@@ -109,9 +126,10 @@ token: {Frankie generated token}
 6. Add the web component to the page, passing the following attributes
     1. **ff**, the token
     2. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request their details aftwerwards, both via Frankie API and Frankie Portal
-    3. *optional* **width**, the width exactly as would be defined in css (defaults to 375px)
-    4. *optional* **height**, the height exactly as would be defined in css (defaults to 812px)
-    5. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI. [Read more](#configuration)
+    3. *optional* **width**, the width exactly as would be defined in css OR the default "FULL". When this attribute is the string "FULL", the calculated screen size width is used.
+    4. *optional* **height**, the height exactly as would be defined in css OR the default "FULL". When this attribute is the string "FULL", the calculated screen size height is used.
+    5. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI. [Read more](#configuration
+
 
 ## 1. Obtaining an API token
 
@@ -195,6 +213,7 @@ More configurations and customisations will be available soon. Right now our goa
 - [x] Hide the progress bar
 - [x] Customize accepted country of residence
 - [x] Customize success page redirect url
+- [ ] Reduce file size by splitting it in multiple assets hosted by Frankie.
 - [ ] Customize text throughout the widget
 - [ ] Customize font
 - [ ] Customize all styles freely
@@ -251,6 +270,10 @@ googleAPIKey: string | false =  false
 // List of up to 5 char3 country codes to include in the country selects in the Addresses form. Otherwise all countries will be displayed.
 // ex ["AUS", "NZL]
 acceptedCountries: char3[] | null = null
+// Tuple of two numeric values minimumAge and maximumAge in the exact order
+ageRange: [number, number] = [18, 125];
+// Your organisation's name as displayed in the data submission consent text. Defaults to the name we have on record.
+organisationName: string = <Organisation name as configured during Frankie onboarding process>
 ```
 
 ## To obtain a Google API key
@@ -302,7 +325,9 @@ Example configuration object
     progressBar: true,
     checkProfile: "customer",
     googleAPIKey: false
-    acceptedCountries: ["AUS", "NZL"]
+    acceptedCountries: ["AUS", "NZL"],
+    ageRange:[18, 125],
+    organisationName: "organisation"
   };
 
 ```
