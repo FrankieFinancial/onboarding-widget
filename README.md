@@ -124,7 +124,7 @@ token: {Frankie generated token}
 ```
 6. Add the web component to the page, passing the following attributes
     1. **ff**, the token
-    2. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request their details aftwerwards, both via Frankie API and Frankie Portal
+    2. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request their details afterwards, both via Frankie API and the Frankie Portal
     3. *optional* **width**, the width exactly as would be defined in css (defaults to 375px)
     4. *optional* **height**, the height exactly as would be defined in css (defaults to 812px)
     5. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI. [Read more](#configuration)
@@ -138,7 +138,7 @@ Example in Node + Express + Axios
   const apiKey = process.env.FRANKIE_API_KEY,
         customerId = process.env.FRANKIE_CUSTOMER_ID,
         customerChildId = process.env.FRANKIE_CUSTOMER_CHILD_ID;
-  // Set the applicant reference to any string you can use to identify this applicant
+  // Set the applicant reference to any string you can use to identify this applicant, this will help us to preload applicant data and directly display the applicant details review page if an applicant exists.
   const applicantReference = Math.floor(Math.random() * 9999) + "-new-applicant";
   // Set widget configurations as defined in "Configuration"
   const widgetConfiguration = {
