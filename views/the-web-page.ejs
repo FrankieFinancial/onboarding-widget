@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
-    <script src="./ff-onboarding-widget.min.js"></script>
+    <!-- using frankie hosted widget file, instead of widget file in this repo -->
+    <script src="https://assets.frankiefinancial.io/"></script>
     <script>
       function ffSuccess(applicantReference) {
         alert(applicantReference);
@@ -18,7 +19,7 @@
         <h1><%= title %></h1>
       </div>
       <div>
-        <ff-onboarding-widget width="100%" height="100%" applicant-reference="<%= applicantReference %>" ff="<%= ffToken %>" config="<%- encodeURI(JSON.stringify(widgetConfiguration)) %>"></ff-onboarding-widget>
+        <ff-onboarding-widget width="FULL" height="FULL" applicant-reference="<%= applicantReference %>" ff="<%= ffToken %>" config="<%- encodeURI(JSON.stringify(widgetConfiguration)) %>"></ff-onboarding-widget>
       </div>
     </div>
   </body>

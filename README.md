@@ -35,7 +35,7 @@ npm run start:demo
 
 The Web Component in "demo" mode is configured to not expect authentication and will show you buttons to fake check results in the end of the process.
 
-**If you have Frankie Developer Credentials** 
+**If you have Frankie Developer Credentials**
 
 If you've received your developer welcome email and welcome pack, you'll be using the demo service API which is:
 
@@ -44,7 +44,7 @@ https://backend.demo.frankiefinancial.io
 You will need to pass this in to the configuration object. See details on the [configuration object](#configuration) below on how to pass this URL into the widget.
 
 
-**If you have Frankie Production Credentials** 
+**If you have Frankie Production Credentials**
 
 Some organisations may be issued their own specific Frankie environment and will therefore have a dedicated URL to use. See details on the [configuration object](#configuration) below on how to pass this URL into the widget.
 
@@ -85,20 +85,21 @@ npm run start
 1. Serialise and base64 encode your Frankie Api Credentials using ":" as a separator
     - "CUSTOMER_ID:API_KEY", if you don't have a CUSTOMER_CHILD_ID
     - "CUSTOMER_ID:CUSTOMER_CHILD_ID:API_KEY" if you do
-2. Post the credentials in the header parameter "authorization" to ${frankieUrl}/auth/v1/machine-session with an optional (but recommended) *referrer* field in the JSON body
+2. Post the credentials in the header parameter "authorization" to ${frankieUrl}/auth/v1/machine-session with an optional (but recommended) *
+* field in the JSON body
 
 Header
 ```
 authorization: machine {encoded credentials}
 ```
-**Optionally include a field "referrer" in the request's body, with the pattern to be used to verify the domain name of the url from which calls can be made using the token.The referrer sent by the browser must match the referrer URL pattern in the JWT for the widget to successfully authenticate**
+**Optionally include a field "referrer" in the request's body, with the pattern to be used to verify the url from which calls can be made using the token.The referrer sent by the browser must match the referrer URL pattern in the JWT for the widget to successfully authenticate**
 
 *The referrer is based on the Google Chrome match pattern URLs. URLs can contain wild card characters. You can read more about it here [ match pattern](https://developer.chrome.com/extensions/match_patterns)*.
 
 **Permitted referrer patterns are as follows:
 ![Referrer Pattern](screenshots/referrer-pattern.png)
 
-An example of a valid referrer is 
+An example of a valid referrer is
 ```
 https://*.example.com/example_page/*
 ```
@@ -124,10 +125,11 @@ token: {Frankie generated token}
 ```
 6. Add the web component to the page, passing the following attributes
     1. **ff**, the token
-    2. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request their details afterwards, both via Frankie API and Frankie Portal
-    3. *optional* **width**, the width exactly as would be defined in css (defaults to 375px)
-    4. *optional* **height**, the height exactly as would be defined in css (defaults to 812px)
-    5. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI. [Read more](#configuration)
+    2. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request their details aftwerwards, both via Frankie API and Frankie Portal
+    3. *optional* **width**, the width exactly as would be defined in css OR the default "FULL". When this attribute is the string "FULL", the calculated screen size width is used.
+    4. *optional* **height**, the height exactly as would be defined in css OR the default "FULL". When this attribute is the string "FULL", the calculated screen size height is used.
+    5. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI. [Read more](#configuration
+
 
 ## 1. Obtaining an API token
 
@@ -211,6 +213,7 @@ More configurations and customisations will be available soon. Right now our goa
 - [x] Hide the progress bar
 - [x] Customize accepted country of residence
 - [x] Customize success page redirect url
+- [ ] Reduce file size by splitting it in multiple assets hosted by Frankie.
 - [ ] Customize text throughout the widget
 - [ ] Customize font
 - [ ] Customize all styles freely
