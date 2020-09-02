@@ -140,7 +140,7 @@ Example in Node + Express + Axios
   const apiKey = process.env.FRANKIE_API_KEY,
         customerId = process.env.FRANKIE_CUSTOMER_ID,
         customerChildId = process.env.FRANKIE_CUSTOMER_CHILD_ID;
-  // Set the applicant reference to any string you can use to identify this applicant, this will help us to preload applicant data and directly display the applicant details review page if an applicant exists.
+  // Set the applicant reference to any html compatible string you can use to identify this applicant, this will help us to preload applicant data and directly display the applicant details review page if an applicant already exists.
   const applicantReference = Math.floor(Math.random() * 9999) + "-new-applicant";
   // Set widget configurations as defined in "Configuration"
   const widgetConfiguration = {
