@@ -124,7 +124,7 @@ token: {Frankie generated token}
 ```
 6. Add the web component to the page, passing the following attributes
     1. **ff**, the token
-    2. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request their details afterwards, both via Frankie API and the Frankie Portal
+    2. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request their details afterwards, both via Frankie API and Frankie Portal
     3. *optional* **width**, the width exactly as would be defined in css (defaults to 375px)
     4. *optional* **height**, the height exactly as would be defined in css (defaults to 812px)
     5. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI. [Read more](#configuration)
