@@ -6,6 +6,7 @@
 - [Demo](#demo)
 - [Getting started](#getting-started)
 - [Configuration](#configuration)
+- [Custom Styles](#styling)
 
 ## Overview
 
@@ -340,3 +341,46 @@ The **config** attribute
     config="<%- encodeURI(JSON.stringify(widgetConfiguration)) %>"></ff-onboarding-widget>
 </body>
 ```
+
+## Styling
+Since v2.3.0, the shadow DOM was removed and external styles can now target elements within <ff-onboarding-widget>. This means it's now possible to customize it to look like it belongs to the host platform.
+While that is an advange overall, it also means some unintentional styles may be injected into the widget and have undesireble effects. Most websites and web applications don't use element selectors as they don't target anything specific, but let us know if your platform requires a version which is isolated by the shadow DOM.
+Selectors throughout the widget were intended to facilitate overriding their styles. Here is a quick guide through them:
+1. The font-family for the widget can be changed targeting the root #ff-onboarding-widget. Any font-family available on the page can be used. The default styling expect the following font weights and styles, where weights fallback to the closest available one:
+    1. 300, Regular
+    2. 300, Italic
+    3. 400, Regular
+    4. 400, Italic
+    5. 700, Regular
+2. Selectors are prefixed with "ff-", to avoid targetting external elements
+3. Page titles can be targeted with .ff-title
+4. Page subtitles can be targeted with .ff-subtitle
+5. Every page has multiple levels of containers, which can be used to target specific views. They are named View, Form and Input, but that only refers to how they access data internally and has no meaning to how they should be displayed or how they behave externally, so you may disregard that naming.
+    1. .ff-welcome-view
+    2. .ff-document-form
+        1. .ff-document-type
+        2. .ff-document-input, which will also be one of
+            1. .ff-passport-input
+            2. .ff-medicare-input
+            3. .ff-licence-inputs-container
+    3. .ff-personal-details-form, which contain
+        1. .ff-fullname-input
+        2. .ff-dob-input
+        3. .ff-address-input
+            1. .ff-address-autocomplete
+            2. .ff-address-manual-input
+    4. .ff-details-review
+        1. .ff-document-review-input
+        2. .ff-applicant-review-input
+        3. Here the inputs .ff-document-input, .ff-fullname-input, .ff-dob-input and .ff-address-manual-input appear again
+    5. .ff-no-match, which contain revision for personal details
+        1. .ff-warning-no-match
+        2. .ff-personal-details-form
+    6. .ff-partial-match, which contain revision for document details
+        1. .ff-warning-partial-match
+        2. .ff-review-document
+        3. .ff-document-form
+    7. .ff-warning-success
+    8. .ff-failure-view
+
+
