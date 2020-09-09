@@ -16,7 +16,7 @@
 3. Fix for Safari bug detecting blur event on date of birth inputs.
 4. Preload of customers data added. Only applies when applicant is found on Frankie's database using "applicantReference".
 5. White labeling added. This allowes external styles to penetrate all components within the widget.
-
+6. New function for initialising widget, without needing to manually serialise configuration. This also clears attributes from the root of the html element.
 ## Overview
 
 Our self onboarding widget allowes you to connect your customers directly with Frankie Financial's identity verification and validation services.
