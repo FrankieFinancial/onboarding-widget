@@ -124,8 +124,8 @@ Body
 ```
 token: {Frankie generated token}
 ```
-4. Add both the link to the desired font family and script tag to the widget .js file to the head of the webpage. Since v2.3.0 you also need to initialise the widget by calling a global javascript function where you pass the configuration object and the applicant reference.
-
+4. Add both the link to the desired font family and script tag to the widget .js file to the head of the webpage. Since v2.3.0 you also need to initialise the widget by calling a global javascript function where you pass the [configuration](#configuration) object and the applicant reference.
+    1. "Applicant reference number" is your own internal ID. If you have previously sent this data to Frankie, the service will automatically retrieve that data and attempt to pre-populate this widget with the data available.
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <script src="https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js"></script>
@@ -166,8 +166,13 @@ Example in Node + Express + Axios
   const apiKey = process.env.FRANKIE_API_KEY,
         customerId = process.env.FRANKIE_CUSTOMER_ID,
         customerChildId = process.env.FRANKIE_CUSTOMER_CHILD_ID;
-  // Set the applicant reference to any html compatible string you can use to identify this applicant, this will help us to preload applicant data and directly display the applicant details review page if an applicant already exists.
+
+  // Set the applicant reference to any html compatible string you can use to identify
+  //   this applicant, this will help us to preload applicant data and directly display the
+  //   applicant details review page if an applicant already exists.
+  // Note: the example here is just that. Use your own unique identifier.
   const applicantReference = Math.floor(Math.random() * 9999) + "-new-applicant";
+
   // Set widget configurations as defined in "Configuration"
   const widgetConfiguration = {
     mode: process.env.NODE_ENV,
@@ -178,12 +183,16 @@ Example in Node + Express + Axios
     checkProfile: process.env.CHECK_PROFILE,
     acceptedCountries: ["AUS", "NZL"],
   };
+
   // Serialize your credentials, by joining them with a ":" separator symbol
-  //  customerId:customerChildId:apiKey OR customerId:apiKey
-  //  where if you don't posses a customerChildId, you should omit it and the separator symbol ":" all together
+  //   customerId:customerChildId:apiKey OR customerId:apiKey
+  //   where if you don't posses a customerChildId, you should omit it and the
+  //   separator symbol ":" all together
   const decodedCredentials = [customerId, customerChildId, apiKey].filter(Boolean).join(":");
+
   // Base64 encode the result string
   const encodedCredentials = Buffer.from(decodedCredentials).toString('base64');
+
   // POST the endpoint "/machine-session" of the api service provided to you by Frankie
   // Include the encoded credentials in the "authorization" header, as follows
   // "authorization": `machine ${encodedCreentials}`
@@ -204,7 +213,7 @@ Example in Node + Express + Axios
   })
 ```
 
-## 2. Embeding widget
+## 2. Embedding widget
 
 Head of the html page (link to font and the js file)
 
@@ -250,53 +259,76 @@ More configurations and customisations will be available soon. Right now our goa
 ## All current options and their defaults
 
 ```typescript
-// not necessary to change this options. It's simply a switch between "development", "demo" and "production"
+// not necessary to change this options. It's simply a switch between "development",
+//   "demo" and "production"
 mode: 'demo' | 'production' | 'development' = 'production',
-// if your organisation has a special Frankie Backend URL, provide it here. If that's not your case, skip this configuration.
+
+// if your organisation has a special Frankie Backend URL, provide it here. If that's not applicable in
+//   your case, skip this configuration.
 frankieBackendUrl: string = "https://defaults-to-valid-frankie-url",
+
 // array of accepted document types
 // where DocType = 'PASSPORT' | 'DRIVERS_LICENCE' | 'NATIONAL_HEALTH_ID'
 documentTypes: DocType[] = ["PASSPORT", "DRIVERS_LICENCE", "NATIONAL_HEALTH_ID"]
+
 welcomeScreen: boolean | {
-  // html string to be displayed in the welcome screen. It accepts style tags, but script tags will be stripped out.
-  // the default welcome screen (htmlContent === null) is available in the screenshot at the end of section "Demo" above
+  // html string to be displayed in the welcome screen. It accepts style tags,
+  //   but script tags will be stripped out.
+  // the default welcome screen (htmlContent === null) is available in the screenshot at
+  //   the end of section "Demo" above
   htmlContent: string | false | null = null,
   ctaText: boolean | string = "Start Identity Verification"
 }
-// the number of times the applicant will be allowed to review personal details and try new documents before failing their application
+
+// the number of times the applicant will be allowed to review personal details and try
+//   new documents before failing their application
 maxAttemptCount: number = 5
+
 successScreen: {
   // url to redirect after applicant clicks button in the successful page
   // by default (ctaUrl === null) the widget only displays a successful message
-  // you can always include the applicant-reference as a query parameter to continue any remaining onboarding steps that might come after the identity verification.
-  // As any traditional html link, ctaUrl can also include a call to a global javascript function, "javascript:ffSuccess('string-with-applicant-reference')"
+  // you can always include the applicant-reference as a query parameter to continue any
+  //    remaining onboarding steps that might come after the identity verification.
+  // As any traditional html link, ctaUrl can also include a call to a global
+  //    javascript function, "javascript:ffSuccess('string-with-applicant-reference')"
   ctaUrl: string | null = null
   ctaText: string = 'Continue to My Account'
 }
+
 failureScreen: {
   // url to redirect after applicant clicks button when onboarding has failed
   // by default the widget only displays a failure message
   // you can always include the applicant-reference as a query parameter to provide any further steps.
-  // As any traditional html link, ctaUrl can also include a call to a global javascript function, "javascript:ffFailure('string-with-applicant-reference')"
+  // As any traditional html link, ctaUrl can also include a call to a global javascript function,
+  //   "javascript:ffFailure('string-with-applicant-reference')"
   ctaUrl: string | null = null,
   ctaText: string = 'Contact Us'
 },
+
 // If the progress bar should be rendered
 progressBar: boolean = true
-// A "profile" is a collection or recipe of rules and checks that you wish to perform on all of your customers.
+
+// A "profile" is a collection or recipe of rules and checks that you wish to perform
+//   on all of your customers.
 // As part of the onboarding process with Frankie, we'll work with you to define these.
-// However, the service also makes it easy to automate this and you can just use "auto" to have our rules engine work this out for you.
+// However, the service also makes it easy to automate this and you can just use "auto"
+//   to have our rules engine work this out for you.
 // Unless told otherwise by Frankie, use "auto".
 checkProfile: string = "auto"
+
 // Google api key for the address auto complete. For the demo we provide our own api automatically.
 // Otherwise if this field is missing the widget will skip the address autocomplete screen.
 // More information right after this code bloc
 googleAPIKey: string | false =  false
-// List of up to 5 char3 country codes to include in the country selects in the Addresses form. Otherwise all countries will be displayed.
+
+// List of up to 5 char3 country codes to include in the country selects in the Addresses
+//   form. Otherwise all countries will be displayed.
 // ex ["AUS", "NZL]
 acceptedCountries: char3[] | null = null
+
 // Tuple of two numeric values minimumAge and maximumAge in the exact order
 ageRange: [number, number] = [18, 125];
+
 // Your organisation's name as displayed in the data submission consent text. Defaults to the name we have on record.
 organisationName: string = <Organisation name as configured during Frankie onboarding process>
 ```
