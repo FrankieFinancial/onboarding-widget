@@ -388,15 +388,15 @@ Selectors throughout the widget were intended to facilitate overriding their sty
         3. .ff-document-form, same as .ff-document-form above
     6. .ff-warning-success
     7. .ff-failure-view
-6. Most basic elements come from our external component library and for that reason they have stronger targeted styles. They are elements such as Form inputs, Progress Bar, Dropdowns, Check Boxes, Buttons and What we call Go Ahead Buttons, which are Buttons with And Icon, Text, Hint and an Arrow icon pointing to the right. They can still be targeted but might require greater specificity, including the use of !important rules. Their inner structure is the following.
+6. Most basic elements come from our external component library and for that reason they have stronger targeted styles. They are elements such as Form Inputs, Progress Bar, Dropdowns, Check Boxes, Buttons and What we call Go Ahead Buttons, which are Buttons with an Icon, Label Text, Hint text and an Arrow icon pointing to the right. They can still be targeted but might require greater specificity, including the use of !important rules. Their inner structure is the following.
     1. Button
         1. button.ff-basic-button, which is a simple button element
     2. Go Ahead Button
         1. button.ff-goahead-button
           2. .ff-icon, the custom icon
           3. .ff-label
-              1. .ff-title, title in bold
-              2. .ff-subtitle, small italic hint below title
+              1. .ff-main-label, title in bold
+              2. .ff-hint-label, small italic hint below title
           4. .ff-arrow, the arrow icon
     3. Progress Bar
         1. .ff-progress-bar, grey container
@@ -404,10 +404,10 @@ Selectors throughout the widget were intended to facilitate overriding their sty
     4. Check Box
         1. .ff-the-tick
             1. .ff-icon
-        2. .ff-label
-    5. SelectOption (dropdowns that might be displayed as a full spread list of options for better UX on small screens)
+        2. .ff-label, all text associated with the check box
+    5. SelectOption (dropdowns that might also be displayed as a full spread list of options for better UX on small screens)
         1. .ff-select-option, when it's a regular dropdown is just a wrapper for a [third party library](https://vue-select.org/)
-            1. .ff-the-select-box
+            1. .ff-the-select-box, the third party element
         2. .ff-select-option.ff-spread, in case the options list is spread on the screen instead of a dropdown, which makes it a sequence of ul li
             1. .ff-select-option-filter, the filter text input that might be present or not, based on configuration. See details in Generic Input
             2. ul.ff-select-option-options, the actual options list
@@ -415,16 +415,15 @@ Selectors throughout the widget were intended to facilitate overriding their sty
             3. li, all the option list items
     6. Generic Input, the basic inputs such as text and number input
         1. .ff-generic-input
-            1. .ff-label, contains the label and might contain other elements
-            2. input, the basic html input element
+            1. .ff-label, contains the label text and might contain other elements
+            2. input, the basic native html input element
 7. Regarding the disabled state
     1. Button and Go Ahead Button have a disabled state that can be targeted with the attribute selector [disabled]
     2. Generic Input will have .ff-disabled in its root .ff-generic-input element, and [disabled] in the native input element
     3. Select Option will contain .ff-disabled in its root
 8. Regarding focused state
     1. Being a wrapper for a native html input, the Generic Input element :focus state can be targeted directly .ff-generic-input input:focus, to change the default border surrounding it
-    2.
-8. Other states will still be included
+9. Other states will still be made available
 
 ## Custom Styles
 
