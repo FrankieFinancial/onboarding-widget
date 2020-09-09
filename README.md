@@ -342,7 +342,7 @@ The **config** attribute
 </body>
 ```
 
-## Styling
+## Styling (examples below)
 Since v2.3.0, the shadow DOM was removed and external styles can now target elements within <ff-onboarding-widget>. This means it's now possible to customize it to look like it belongs to the host platform.
 While that is an advange overall, it also means some unintentional styles may be injected into the widget and have undesireble effects. Most websites and web applications don't use element selectors as they don't target anything specific, but let us know if your platform requires a version which is isolated by the shadow DOM.
 Selectors throughout the widget were intended to facilitate overriding their styles. Here is a quick guide through them:
@@ -406,9 +406,9 @@ Selectors throughout the widget were intended to facilitate overriding their sty
             1. .ff-icon
         2. .ff-label
     5. SelectOption (dropdowns that might be displayed as a full spread list of options for better UX on small screens)
-        1. .ff-select-option, when it's a regular dropdown
+        1. .ff-select-option, when it's a regular dropdown is just a wrapper for a [third party library](https://vue-select.org/)
             1. .ff-the-select-box
-        2. .ff-select-option.ff-spread, in case the options list is spread on the screen instead of a dropdown
+        2. .ff-select-option.ff-spread, in case the options list is spread on the screen instead of a dropdown, which makes it a sequence of ul li
             1. .ff-select-option-filter, the filter text input that might be present or not, based on configuration. See details in Generic Input
             2. ul.ff-select-option-options, the actual options list
             3. li.ff-select-option-label, some spread lists might have a first static list item that is simply a label for the list
@@ -417,6 +417,24 @@ Selectors throughout the widget were intended to facilitate overriding their sty
         1. .ff-generic-input
             1. .ff-label, contains the label and might contain other elements
             2. input, the basic html input element
+7. Regarding the disabled state
+    1. Button and Go Ahead Button have a disabled state that can be targeted with the attribute selector [disabled]
+    2. Generic Input will have .ff-disabled in its root .ff-generic-input element, and [disabled] in the native input element
+    3. Select Option will contain .ff-disabled in its root
+8. Regarding focused state
+    1. Being a wrapper for a native html input, the Generic Input element :focus state can be targeted directly .ff-generic-input input:focus, to change the default border surrounding it
+    2.
+8. Other states will still be included
 
+## Custom Styles
 
+![Custom Styles](screenshots/customizing-styles.jpg)
 
+## Initialisation in scripts tag and custom styles
+![Custom Styles](screenshots/basic-initialisation.png)
+
+## Changing font
+![Custom Styles](screenshots/changing-font.png)
+
+## Custom Styles
+![Custom Styles](screenshots/custom-styles.png)
