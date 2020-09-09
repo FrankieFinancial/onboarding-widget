@@ -1,5 +1,7 @@
 # Frankie Onboarding Widget
 
+## https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js
+
 ## Table of contents
 
 - [Overview](#overview)

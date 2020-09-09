@@ -1,26 +1,38 @@
 <html>
-  <head>
+
+<head>
     <title>Frankie Financial Demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
     <!-- using frankie hosted widget file, instead of widget file in this repo -->
-    <script src="./ff-onboarding-widget.umd.js"></script>
+    <script src="https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js"></script>
     <script>
-      function ffSuccess(applicantReference) {
-        alert(applicantReference);
-      }
+        function ffSuccess(applicantReference) {
+            alert(applicantReference);
+        }
+
+        function initialiseWidget() {
+            frankieFinancial.initialiseOnboardingWidget({
+                applicantReference: "<%= applicantReference %>", /// the string reference that will be injected into this applicant's data, will be used to prefill data and can be used to request their details aftwerwards, both via Frankie API and Frankie Portal
+                config: <%- JSON.stringify(widgetConfiguration, null, 4) %>
+            });
+        }
     </script>
-  </head>
-  <body responsive>
+</head>
+
+<body responsive onload="initialiseWidget()">
     <div id="content">
-      <div>
-        <h1><%= title %></h1>
-      </div>
-      <div>
-        <ff-onboarding-widget width="FULL" height="FULL" applicant-reference="<%= applicantReference %>" ff="<%= ffToken %>" config="<%- encodeURI(JSON.stringify(widgetConfiguration)) %>"></ff-onboarding-widget>
-      </div>
+        <div>
+            <h1>
+                <%= title %>
+            </h1>
+        </div>
+        <div>
+            <ff-onboarding-widget width="FULL" height="FULL" ff="<%= ffToken %>"></ff-onboarding-widget>
+        </div>
     </div>
-  </body>
+</body>
+
 </html>
