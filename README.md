@@ -19,7 +19,7 @@
 6. New function for initialising widget, without needing to manually serialise configuration. This also clears attributes from the root of the html element.
 ## Overview
 
-Our self onboarding widget allowes you to connect your customers directly with Frankie Financial's identity verification and validation services.
+Our self onboarding widget allows you to connect your customers directly with Frankie Financial's identity verification and validation services.
 They will provide their minimum basic information, we will run all the checks you choose and then signal back to you that the Applicant is ready to be onboarded, right there in the platform it's embeded.
 
 - The first step is to make sure you have credentials previously provided to your organisation by Frankie: the Customer ID and the api key. Some organisations will also have a Customer child ID.
