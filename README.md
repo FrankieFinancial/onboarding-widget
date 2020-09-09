@@ -425,6 +425,21 @@ Selectors throughout the widget were intended to facilitate overriding their sty
     1. Being a wrapper for a native html input, the Generic Input element :focus state can be targeted directly .ff-generic-input input:focus, to change the default border surrounding it
 9. Other states will still be made available
 
+
+### Adding styles using javascript
+Of course, it's not necessary to include stylesheets in such a 90's manner. Styles injected via bundler's such as webpack will work without any issues. Another way is to inject them manually
+```javascript
+var style = document.createElement('style');
+style.innerHTML = `
+  #ff-onboarding-widget {
+    font-family: "Comic Sans MS"
+  }
+`;
+document.head.appendChild(style);
+```
+
+
+
 ## Custom Styles
 
 ![Custom Styles](screenshots/customizing-styles.jpg)
