@@ -1,60 +1,128 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
-html, body {
-  height: 100%;
-  width: 100%;
-  min-height: 100% !important;
-}
+
+html,
 body {
-  margin: 0;
-  background: #7b94c1;
+    height: 100%;
+    width: 100%;
+    min-height: 100% !important;
 }
+
+body {
+    margin: 0;
+    background: #7b94c1;
+}
+
 #content {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  font-family: roboto;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    font-family: roboto;
 }
-#content > :first-child {
-  flex: 1 1 auto;
-  color: white;
+
+#content> :first-child {
+    flex: 1 1 auto;
+    color: white;
 }
-#content > :nth-child(2) {
-  flex: 0 0 500px;
+
+#content> :nth-child(2) {
+    flex: 0 0 500px;
 }
+
 h1 {
-  margin-top: 180px;
-  margin-left: 120px;
+    margin-top: 180px;
+    margin-left: 120px;
 }
 
 body[responsive] {
-  padding: 0px;
-  box-sizing: border-box;
+    padding: 0px;
+    box-sizing: border-box;
 }
-body[responsive] #content > :first-child{
-  display: none;
-  height: 100px;
-  flex: 0 0 auto;
+
+body[responsive] #content> :first-child {
+    display: none;
+    height: 100px;
+    flex: 0 0 auto;
 }
-body[responsive] h1{
-  margin: 20px;
+
+body[responsive] h1 {
+    margin: 20px;
 }
-body[responsive] > #content > :nth-child(2){
-  flex: 1 1 auto;
-  box-shadow: 0 0 40px -20px black;
-  min-height: 1px
+
+body[responsive]>#content> :nth-child(2) {
+    flex: 1 1 auto;
+    box-shadow: 0 0 40px -20px black;
+    min-height: 1px
 }
-body[responsive] > #content {
-  flex-direction: column;
-  justify-content: center;
+
+body[responsive]>#content {
+    flex-direction: column;
+    justify-content: center;
 }
 
 @media screen and (max-width: 600px) {
-  body[responsive] {
-    padding: 0;
-  }
-  body[responsive] #content > :first-child {
-    display: none;
-  }
+    body[responsive] {
+        padding: 0;
+    }
+    body[responsive] #content> :first-child {
+        display: none;
+    }
+}
+
+#ff-onboarding-widget {
+    font-family: SuisseIntl, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif;
+    letter-spacing: -.01em;
+    line-height: 1.167em;
+    --webkit-font-smoothing: antialised;
+    color: #292e3a;
+}
+
+#ff-onboarding-widget .ff-title {
+    font-weight: 500;
+    font-size: 20px;
+    text-rendering: optimizeSpeed;
+}
+
+#ff-onboarding-widget .ff-subtitle {
+    color: #7a8890;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+#ff-onboarding-widget .ff-welcome-list-title.ff-hint {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#ff-onboarding-widget .ff-the-tick {
+    background-color: #1345c7 !important;
+}
+
+#ff-onboarding-widget .ff-progress {
+    background-color: #292e3a !important;
+}
+
+#ff-onboarding-widget .ff-basic-button,
+#ff-onboarding-widget .ff-goahead-button {
+    color: white !important;
+    background-color: #292e3a !important;
+    border-radius: 5px !important;
+    font-weight: 400 !important;
+    font-family: monospace !important;
+    border: 1px solid transparent !important;
+}
+
+#ff-onboarding-widget .ff-basic-button:disabled,
+#ff-onboarding-widget .ff-goahead-button:disabled {
+    background-color: #94979e !important;
+}
+
+#ff-onboarding-widget .ff-goahead-button svg path {
+    fill: white !important
+}
+
+#ff-onboarding-widget .ff-goahead-button .ff-main-label,
+#ff-onboarding-widget .ff-goahead-button .ff-hint-label {
+    color: inherit !important;
 }
