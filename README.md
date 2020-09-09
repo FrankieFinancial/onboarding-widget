@@ -8,6 +8,13 @@
 - [Configuration](#configuration)
 - [Custom Styles](#styling)
 
+## Changelog of September 9th v2.2.0 -> v2.3.0
+1. Widget is not hosted by Frankie on https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js
+2. Minor improvements in responsive design.
+3. Fix for Safari bug detecting blur event on date of birth inputs.
+4. Preload of customers data added. Only applies when applicant is found on Frankie's database using "applicantReference".
+5. White labeling added. This allowes external styles to penetrate all components within the widget.
+
 ## Overview
 
 Our self onboarding widget allowes you to connect your customers directly with Frankie Financial's identity verification and validation services.
@@ -86,8 +93,7 @@ npm run start
 1. Serialise and base64 encode your Frankie Api Credentials using ":" as a separator
     - "CUSTOMER_ID:API_KEY", if you don't have a CUSTOMER_CHILD_ID
     - "CUSTOMER_ID:CUSTOMER_CHILD_ID:API_KEY" if you do
-2. Post the credentials in the header parameter "authorization" to ${frankieUrl}/auth/v1/machine-session with an optional (but recommended) *
-* field in the JSON body
+2. Post the credentials in the header parameter "authorization" to ${frankieUrl}/auth/v1/machine-session with an optional (but highly recommended) **referrer** field in the JSON body
 
 Header
 ```
@@ -118,19 +124,38 @@ Body
 ```
 token: {Frankie generated token}
 ```
-4. Define your applicant reference number and optional configuration object, according to the section [Configuration](#configuration)
-5. Add both the link to the *Roboto font* and script tag to the widget .js file to the head of the webpage.
+4. Add both the link to the desired font family and script tag to the widget .js file to the head of the webpage. Since v2.3.0 you also need to initialise the widget by calling a global javascript function where you pass the configuration object and the applicant reference.
+
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
-<script src="/ff-onboarding-widget.min.js"></script>
+<script src="https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js"></script>
+<script>
+    function onLoaded() {
+        frankieFinancial.initialiseOnboardingWidget({
+            applicantReference: "some-applicant",  /// the string reference that will be injected into this applicant's data, will be used to prefill data and can be used to request their details aftwerwards, both via Frankie API and Frankie Portal
+            config: {  /// the configuration object, see the configuration section below
+                successScreen: {
+                  ctaUrl: "javascript:alert('Callback for successful onboarding')"
+                },
+                failureScreen: {
+                  ctaUrl: "javascript:alert('Callback for failed onboarding')"
+                },
+                documentTypes: ["DRIVERS_LICENCE", "PASSPORT", 'NATIONAL_HEALTH_ID'],
+                acceptedCountries: ["AUS", "NZL"],
+                ageRange: [18, 125],
+                organisationName: "My Organisation",
+            }
+        });
+    }
+    var body = document.getElementsByTagName("body")[0];
+    body.addEventListener("load", onLoaded);
+</script>
+
 ```
 6. Add the web component to the page, passing the following attributes
     1. **ff**, the token
-    2. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request their details aftwerwards, both via Frankie API and Frankie Portal
-    3. *optional* **width**, the width exactly as would be defined in css OR the default "FULL". When this attribute is the string "FULL", the calculated screen size width is used.
-    4. *optional* **height**, the height exactly as would be defined in css OR the default "FULL". When this attribute is the string "FULL", the calculated screen size height is used.
-    5. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI. [Read more](#configuration
-
+    2. *optional* **width**, the width exactly as would be defined in css OR the default "FULL". When this attribute is the string "FULL", the calculated screen size width is used.
+    3. *optional* **height**, the height exactly as would be defined in css OR the default "FULL". When this attribute is the string "FULL", the calculated screen size height is used.
 
 ## 1. Obtaining an API token
 
@@ -190,7 +215,8 @@ Head of the html page (link to font and the js file)
     <!-- initially only the Roboto font family is supported and therefore the following line is required to be included. This will be configurable in next iterations -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
     <!-- Include the Web component script -->
-    <script src="./ff-onboarding-widget.min.js"></script>
+    <script src="https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js"></script>
+    <script> /* initialisation as mentioned above */ </script>
   </head>
 ```
 
@@ -198,9 +224,7 @@ Body of the html page, wherever desired
 
 ```html
 <body>
-  <ff-onboarding-widget
-    width="500px" height="900px"
-    ff="<%= ffToken %>"></ff-onboarding-widget>
+    <ff-onboarding-widget width="500px" height="900px" ff="<%= ffToken %>"></ff-onboarding-widget>
 </body>
 ```
 
@@ -214,14 +238,14 @@ More configurations and customisations will be available soon. Right now our goa
 - [x] Hide the progress bar
 - [x] Customize accepted country of residence
 - [x] Customize success page redirect url
-- [ ] Reduce file size by splitting it in multiple assets hosted by Frankie.
-- [ ] Customize text throughout the widget
-- [ ] Customize font
-- [ ] Customize all styles freely
-- [ ] Customize success page content
-- [ ] Customize progress bar range, start value and end value
+- [x] Customize font
+- [x] Customize all styles freely
 - [ ] Dispatch events on every step of the progress of the user to allow greater interaction between the host platform and the widget
+- [ ] Reduce file size by splitting it in multiple assets hosted by Frankie.
+- [ ] Customize success page content
 - [ ] Create public credentials that can be used directly by the frontend, with no backend required
+- [ ] Customize text throughout the widget
+- [ ] Customize progress bar range, start value and end value
 
 ## All current options and their defaults
 
@@ -342,9 +366,10 @@ The **config** attribute
 </body>
 ```
 
-## Styling (examples below)
+## Styling
 Since v2.3.0, the shadow DOM was removed and external styles can now target elements within &lt;ff-onboarding-widget>. This means it's now possible to customize it to look like it belongs to the host platform.
-While that is an advange overall, it also means some unintentional styles may be injected into the widget and have undesireble effects. Most websites and web applications don't use generic element selectors as they don't target anything specific, but let us know if your platform requires a version which is isolated using the shadow DOM.
+While that is an advantage overall, it also means some unintentional styles may be injected into the widget and have undesireble effects. Most websites and web applications don't use generic element selectors as they don't target anything specific, but let us know if your platform requires a version which is isolated using the shadow DOM. (examples below)
+
 
 Selectors throughout the widget were intended to facilitate overriding their styles, but we're open to suggestions and requests on how to make style override simpler. Here is a quick guide on how to override styles:
 1. The font-family for the widget can be changed targeting the root #ff-onboarding-widget. Any font-family available on the page can be used. The default styling expect the following font weights and styles, where weights fallback to the closest available one:
@@ -444,7 +469,8 @@ document.head.appendChild(style);
 
 ![Custom Styles](screenshots/customizing-styles.jpg)
 
-## Initialisation in scripts tag and custom styles
+## Initialisation in script tag and custom styles.
+This is in demo mode, so ff-onboarding-widget tag is missing the token in ff attribute
 ![Custom Styles](screenshots/basic-initialisation.png)
 
 ## Changing font
