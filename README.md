@@ -343,9 +343,10 @@ The **config** attribute
 ```
 
 ## Styling (examples below)
-Since v2.3.0, the shadow DOM was removed and external styles can now target elements within <ff-onboarding-widget>. This means it's now possible to customize it to look like it belongs to the host platform.
-While that is an advange overall, it also means some unintentional styles may be injected into the widget and have undesireble effects. Most websites and web applications don't use element selectors as they don't target anything specific, but let us know if your platform requires a version which is isolated by the shadow DOM.
-Selectors throughout the widget were intended to facilitate overriding their styles. Here is a quick guide through them:
+Since v2.3.0, the shadow DOM was removed and external styles can now target elements within &lt;ff-onboarding-widget>. This means it's now possible to customize it to look like it belongs to the host platform.
+While that is an advange overall, it also means some unintentional styles may be injected into the widget and have undesireble effects. Most websites and web applications don't use generic element selectors as they don't target anything specific, but let us know if your platform requires a version which is isolated using the shadow DOM.
+
+Selectors throughout the widget were intended to facilitate overriding their styles, but we're open to suggestions and requests on how to make style override simpler. Here is a quick guide on how to override styles:
 1. The font-family for the widget can be changed targeting the root #ff-onboarding-widget. Any font-family available on the page can be used. The default styling expect the following font weights and styles, where weights fallback to the closest available one:
     1. 300, Regular
     2. 300, Italic
@@ -355,7 +356,7 @@ Selectors throughout the widget were intended to facilitate overriding their sty
 2. Selectors are prefixed with "ff-", to avoid targetting external elements
 3. Page titles can be targeted with .ff-title
 4. Page subtitles can be targeted with .ff-subtitle
-5. Every page has multiple levels of containers, which can be used to target specific views. They are named View, Form and Input, but that only refers to how they access data internally and has no meaning to how they should be displayed or how they behave externally, so you may disregard that naming. In the list below, an item in the form [class &&] followed by an indented inner list means the class is appended with one of the following classes. Otherwise idented inner lists mean they are contained within the parent class. Classes usually have multiple intermediary containers not mentioned here, so avoid using the direct child selector (>).
+5. Every page has multiple levels of containers, which can be used to target specific views. They are named View, Form and Input, but that only refers to how they access data internally and has no meaning to how they should be displayed or how they behave externally, so you may disregard that naming. In the list below, an item in the form [class &&] followed by an indented inner list means that class is appended with one of the following listed classes. Otherwise idented inner lists mean they are contained within the parent class. Elements usually have multiple intermediary containers not mentioned here, so avoid using the direct child selector (>).
     1. .ff-welcome-view
     2. .ff-initial-data-view
         1. .ff-document-form
@@ -364,7 +365,7 @@ Selectors throughout the widget were intended to facilitate overriding their sty
                 1. .ff-passport-input
                 2. .ff-medicare-input
                 3. .ff-licence-inputs-container
-        2. .ff-personal-details-form, which contain
+        2. .ff-personal-details-form
             1. .ff-fullname-input
             2. .ff-dob-input
             3. .ff-address-input
@@ -373,19 +374,18 @@ Selectors throughout the widget were intended to facilitate overriding their sty
     3. .ff-details-review
         1. .ff-document-review-input
         2. .ff-applicant-review-input
-        3. .ff-the-input, which is the specific form being reviewed, shown after clicking the pen to edit that specific field. It will also contain one of the following classes that have been shown before in .ff-initial-data-view
-            1. [.ff-document-input && classes for document type] as mentioned in .ff-initial-data-view .ff-document-form .ff-document-input
+        3. [.ff-the-input &&], which is the specific form being reviewed, shown after clicking the pen to edit that specific field. It will also have one of the following classes that have been shown before in .ff-initial-data-view
+            1. [.ff-document-input && specific document type] same as .ff-document-input above
             2. .ff-fullname-input
             3. .ff-dob-input
             4. .ff-address-manual-input
     4. .ff-no-match, which contain revision for personal details
         1. .ff-warning-no-match
-        2. .ff-personal-details-form, which contain all the classes from .ff-initial-data-view .ff-personal-details-form, mentioned above
+        2. .ff-personal-details-form and its children, same as above
     5. .ff-partial-match, which contain revision for document details
         1. .ff-warning-partial-match
-        2. .ff-review-document
-        3. .ff-the-input, like mentioned above, in .ff-details-review .ff-the-input, but here it will only contain [.ff-document-input && clases for document type]
-        3. .ff-document-form
+        2. .ff-review-document and same children as .ff-details-review, but only for documents
+        3. .ff-document-form, same as .ff-document-form above
     6. .ff-warning-success
     7. .ff-failure-view
 6. Most basic elements come from our external component library and for that reason they have stronger targeted styles. They are elements such as Form inputs, Progress Bar, Dropdowns, Check Boxes, Buttons and What we call Go Ahead Buttons, which are Buttons with And Icon, Text, Hint and an Arrow icon pointing to the right. They can still be targeted but might require greater specificity, including the use of !important rules. Their inner structure is the following.
