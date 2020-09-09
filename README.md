@@ -6,7 +6,15 @@
 - [Demo](#demo)
 - [Getting started](#getting-started)
 - [Configuration](#configuration)
+- [Custom Styles](#styling)
 
+## Changelog of September 9th v2.2.0 -> v2.3.0
+1. Widget is not hosted by Frankie on https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js
+2. Minor improvements in responsive design.
+3. Fix for Safari bug detecting blur event on date of birth inputs.
+4. Preload of customers data added. Only applies when applicant is found on Frankie's database using "applicantReference".
+5. White labeling added. This allowes external styles to penetrate all components within the widget.
+6. New function for initialising widget, without needing to manually serialise configuration. This also clears attributes from the root of the html element.
 ## Overview
 
 Our self onboarding widget allows you to connect your customers directly with Frankie Financial's identity verification and validation services.
@@ -85,8 +93,7 @@ npm run start
 1. Serialise and base64 encode your Frankie Api Credentials using ":" as a separator
     - "CUSTOMER_ID:API_KEY", if you don't have a CUSTOMER_CHILD_ID
     - "CUSTOMER_ID:CUSTOMER_CHILD_ID:API_KEY" if you do
-2. Post the credentials in the header parameter "authorization" to ${frankieUrl}/auth/v1/machine-session with an optional (but recommended) *
-* field in the JSON body
+2. Post the credentials in the header parameter "authorization" to ${frankieUrl}/auth/v1/machine-session with an optional (but highly recommended) **referrer** field in the JSON body
 
 Header
 ```
@@ -117,20 +124,38 @@ Body
 ```
 token: {Frankie generated token}
 ```
-4. Define your applicant reference number and optional configuration object, according to the section [Configuration](#configuration)
+4. Add both the link to the desired font family and script tag to the widget .js file to the head of the webpage. Since v2.3.0 you also need to initialise the widget by calling a global javascript function where you pass the [configuration](#configuration) object and the applicant reference.
     1. "Applicant reference number" is your own internal ID. If you have previously sent this data to Frankie, the service will automatically retrieve that data and attempt to pre-populate this widget with the data available.
-5. Add both the link to the *Roboto font* and script tag to the widget .js file to the head of the webpage.
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
-<script src="/ff-onboarding-widget.min.js"></script>
+<script src="https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js"></script>
+<script>
+    function onLoaded() {
+        frankieFinancial.initialiseOnboardingWidget({
+            applicantReference: "some-applicant",  /// the string reference that will be injected into this applicant's data, will be used to prefill data and can be used to request their details aftwerwards, both via Frankie API and Frankie Portal
+            config: {  /// the configuration object, see the configuration section below
+                successScreen: {
+                  ctaUrl: "javascript:alert('Callback for successful onboarding')"
+                },
+                failureScreen: {
+                  ctaUrl: "javascript:alert('Callback for failed onboarding')"
+                },
+                documentTypes: ["DRIVERS_LICENCE", "PASSPORT", 'NATIONAL_HEALTH_ID'],
+                acceptedCountries: ["AUS", "NZL"],
+                ageRange: [18, 125],
+                organisationName: "My Organisation",
+            }
+        });
+    }
+    var body = document.getElementsByTagName("body")[0];
+    body.addEventListener("load", onLoaded);
+</script>
+
 ```
 6. Add the web component to the page, passing the following attributes
     1. **ff**, the token
-    2. **applicant-reference**, the string reference that will be injected into this applicant's data and can be used to request their details aftwerwards, both via Frankie API and Frankie Portal
-    3. *optional* **width**, the width exactly as would be defined in css OR the default "FULL". When this attribute is the string "FULL", the calculated screen size width is used.
-    4. *optional* **height**, the height exactly as would be defined in css OR the default "FULL". When this attribute is the string "FULL", the calculated screen size height is used.
-    5. *optional* **config**, the configuration object first stringified and then URI encoded. The algorithm needs to be compatible with Node's encodeURI. [Read more](#configuration
-
+    2. *optional* **width**, the width exactly as would be defined in css OR the default "FULL". When this attribute is the string "FULL", the calculated screen size width is used.
+    3. *optional* **height**, the height exactly as would be defined in css OR the default "FULL". When this attribute is the string "FULL", the calculated screen size height is used.
 
 ## 1. Obtaining an API token
 
@@ -141,13 +166,13 @@ Example in Node + Express + Axios
   const apiKey = process.env.FRANKIE_API_KEY,
         customerId = process.env.FRANKIE_CUSTOMER_ID,
         customerChildId = process.env.FRANKIE_CUSTOMER_CHILD_ID;
-        
-  // Set the applicant reference to any html compatible string you can use to identify 
-  //   this applicant, this will help us to preload applicant data and directly display the 
+
+  // Set the applicant reference to any html compatible string you can use to identify
+  //   this applicant, this will help us to preload applicant data and directly display the
   //   applicant details review page if an applicant already exists.
   // Note: the example here is just that. Use your own unique identifier.
   const applicantReference = Math.floor(Math.random() * 9999) + "-new-applicant";
-  
+
   // Set widget configurations as defined in "Configuration"
   const widgetConfiguration = {
     mode: process.env.NODE_ENV,
@@ -158,16 +183,16 @@ Example in Node + Express + Axios
     checkProfile: process.env.CHECK_PROFILE,
     acceptedCountries: ["AUS", "NZL"],
   };
-  
+
   // Serialize your credentials, by joining them with a ":" separator symbol
   //   customerId:customerChildId:apiKey OR customerId:apiKey
-  //   where if you don't posses a customerChildId, you should omit it and the 
+  //   where if you don't posses a customerChildId, you should omit it and the
   //   separator symbol ":" all together
   const decodedCredentials = [customerId, customerChildId, apiKey].filter(Boolean).join(":");
-  
+
   // Base64 encode the result string
   const encodedCredentials = Buffer.from(decodedCredentials).toString('base64');
-  
+
   // POST the endpoint "/machine-session" of the api service provided to you by Frankie
   // Include the encoded credentials in the "authorization" header, as follows
   // "authorization": `machine ${encodedCreentials}`
@@ -199,7 +224,8 @@ Head of the html page (link to font and the js file)
     <!-- initially only the Roboto font family is supported and therefore the following line is required to be included. This will be configurable in next iterations -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
     <!-- Include the Web component script -->
-    <script src="./ff-onboarding-widget.min.js"></script>
+    <script src="https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js"></script>
+    <script> /* initialisation as mentioned above */ </script>
   </head>
 ```
 
@@ -207,9 +233,7 @@ Body of the html page, wherever desired
 
 ```html
 <body>
-  <ff-onboarding-widget
-    width="500px" height="900px"
-    ff="<%= ffToken %>"></ff-onboarding-widget>
+    <ff-onboarding-widget width="500px" height="900px" ff="<%= ffToken %>"></ff-onboarding-widget>
 </body>
 ```
 
@@ -223,19 +247,19 @@ More configurations and customisations will be available soon. Right now our goa
 - [x] Hide the progress bar
 - [x] Customize accepted country of residence
 - [x] Customize success page redirect url
-- [ ] Reduce file size by splitting it in multiple assets hosted by Frankie.
-- [ ] Customize text throughout the widget
-- [ ] Customize font
-- [ ] Customize all styles freely
-- [ ] Customize success page content
-- [ ] Customize progress bar range, start value and end value
+- [x] Customize font
+- [x] Customize all styles freely
 - [ ] Dispatch events on every step of the progress of the user to allow greater interaction between the host platform and the widget
+- [ ] Reduce file size by splitting it in multiple assets hosted by Frankie.
+- [ ] Customize success page content
 - [ ] Create public credentials that can be used directly by the frontend, with no backend required
+- [ ] Customize text throughout the widget
+- [ ] Customize progress bar range, start value and end value
 
 ## All current options and their defaults
 
 ```typescript
-// not necessary to change this options. It's simply a switch between "development", 
+// not necessary to change this options. It's simply a switch between "development",
 //   "demo" and "production"
 mode: 'demo' | 'production' | 'development' = 'production',
 
@@ -248,24 +272,24 @@ frankieBackendUrl: string = "https://defaults-to-valid-frankie-url",
 documentTypes: DocType[] = ["PASSPORT", "DRIVERS_LICENCE", "NATIONAL_HEALTH_ID"]
 
 welcomeScreen: boolean | {
-  // html string to be displayed in the welcome screen. It accepts style tags, 
+  // html string to be displayed in the welcome screen. It accepts style tags,
   //   but script tags will be stripped out.
-  // the default welcome screen (htmlContent === null) is available in the screenshot at 
+  // the default welcome screen (htmlContent === null) is available in the screenshot at
   //   the end of section "Demo" above
   htmlContent: string | false | null = null,
   ctaText: boolean | string = "Start Identity Verification"
 }
 
-// the number of times the applicant will be allowed to review personal details and try 
+// the number of times the applicant will be allowed to review personal details and try
 //   new documents before failing their application
 maxAttemptCount: number = 5
 
 successScreen: {
   // url to redirect after applicant clicks button in the successful page
   // by default (ctaUrl === null) the widget only displays a successful message
-  // you can always include the applicant-reference as a query parameter to continue any 
+  // you can always include the applicant-reference as a query parameter to continue any
   //    remaining onboarding steps that might come after the identity verification.
-  // As any traditional html link, ctaUrl can also include a call to a global 
+  // As any traditional html link, ctaUrl can also include a call to a global
   //    javascript function, "javascript:ffSuccess('string-with-applicant-reference')"
   ctaUrl: string | null = null
   ctaText: string = 'Continue to My Account'
@@ -275,7 +299,7 @@ failureScreen: {
   // url to redirect after applicant clicks button when onboarding has failed
   // by default the widget only displays a failure message
   // you can always include the applicant-reference as a query parameter to provide any further steps.
-  // As any traditional html link, ctaUrl can also include a call to a global javascript function, 
+  // As any traditional html link, ctaUrl can also include a call to a global javascript function,
   //   "javascript:ffFailure('string-with-applicant-reference')"
   ctaUrl: string | null = null,
   ctaText: string = 'Contact Us'
@@ -284,10 +308,10 @@ failureScreen: {
 // If the progress bar should be rendered
 progressBar: boolean = true
 
-// A "profile" is a collection or recipe of rules and checks that you wish to perform 
+// A "profile" is a collection or recipe of rules and checks that you wish to perform
 //   on all of your customers.
 // As part of the onboarding process with Frankie, we'll work with you to define these.
-// However, the service also makes it easy to automate this and you can just use "auto" 
+// However, the service also makes it easy to automate this and you can just use "auto"
 //   to have our rules engine work this out for you.
 // Unless told otherwise by Frankie, use "auto".
 checkProfile: string = "auto"
@@ -297,7 +321,7 @@ checkProfile: string = "auto"
 // More information right after this code bloc
 googleAPIKey: string | false =  false
 
-// List of up to 5 char3 country codes to include in the country selects in the Addresses 
+// List of up to 5 char3 country codes to include in the country selects in the Addresses
 //   form. Otherwise all countries will be displayed.
 // ex ["AUS", "NZL]
 acceptedCountries: char3[] | null = null
@@ -373,3 +397,116 @@ The **config** attribute
     config="<%- encodeURI(JSON.stringify(widgetConfiguration)) %>"></ff-onboarding-widget>
 </body>
 ```
+
+## Styling
+Since v2.3.0, the shadow DOM was removed and external styles can now target elements within &lt;ff-onboarding-widget>. This means it's now possible to customize it to look like it belongs to the host platform.
+While that is an advantage overall, it also means some unintentional styles may be injected into the widget and have undesireble effects. Most websites and web applications don't use generic element selectors as they don't target anything specific, but let us know if your platform requires a version which is isolated using the shadow DOM. (examples below)
+
+
+Selectors throughout the widget were intended to facilitate overriding their styles, but we're open to suggestions and requests on how to make style override simpler. Here is a quick guide on how to override styles:
+1. The font-family for the widget can be changed targeting the root #ff-onboarding-widget. Any font-family available on the page can be used. The default styling expect the following font weights and styles, where weights fallback to the closest available one:
+    1. 300, Regular
+    2. 300, Italic
+    3. 400, Regular
+    4. 400, Italic
+    5. 700, Regular
+2. Selectors are prefixed with "ff-", to avoid targetting external elements
+3. Page titles can be targeted with .ff-title
+4. Page subtitles can be targeted with .ff-subtitle
+5. Every page has multiple levels of containers, which can be used to target specific views. They are named View, Form and Input, but that only refers to how they access data internally and has no meaning to how they should be displayed or how they behave externally, so you may disregard that naming. In the list below, an item in the form [class &&] followed by an indented inner list means that class is appended with one of the following listed classes. Otherwise idented inner lists mean they are contained within the parent class. Elements usually have multiple intermediary containers not mentioned here, so avoid using the direct child selector (>).
+    1. .ff-welcome-view
+    2. .ff-initial-data-view
+        1. .ff-document-form
+            1. .ff-document-type
+            2. [.ff-document-input &&]
+                1. .ff-passport-input
+                2. .ff-medicare-input
+                3. .ff-licence-inputs-container
+        2. .ff-personal-details-form
+            1. .ff-fullname-input
+            2. .ff-dob-input
+            3. .ff-address-input
+                1. .ff-address-autocomplete
+                2. .ff-address-manual-input
+    3. .ff-details-review
+        1. .ff-document-review-input
+        2. .ff-applicant-review-input
+        3. [.ff-the-input &&], which is the specific form being reviewed, shown after clicking the pen to edit that specific field. It will also have one of the following classes that have been shown before in .ff-initial-data-view
+            1. [.ff-document-input && specific document type] same as .ff-document-input above
+            2. .ff-fullname-input
+            3. .ff-dob-input
+            4. .ff-address-manual-input
+    4. .ff-no-match, which contain revision for personal details
+        1. .ff-warning-no-match
+        2. .ff-personal-details-form and its children, same as above
+    5. .ff-partial-match, which contain revision for document details
+        1. .ff-warning-partial-match
+        2. .ff-review-document and same children as .ff-details-review, but only for documents
+        3. .ff-document-form, same as .ff-document-form above
+    6. .ff-warning-success
+    7. .ff-failure-view
+6. Most basic elements come from our external component library and for that reason they have stronger targeted styles. They are elements such as Form Inputs, Progress Bar, Dropdowns, Check Boxes, Buttons and What we call Go Ahead Buttons, which are Buttons with an Icon, Label Text, Hint text and an Arrow icon pointing to the right. They can still be targeted but might require greater specificity, including the use of !important rules. Their inner structure is the following.
+    1. Button
+        1. button.ff-basic-button, which is a simple button element
+    2. Go Ahead Button
+        1. button.ff-goahead-button
+          2. .ff-icon, the custom icon
+          3. .ff-label
+              1. .ff-main-label, title in bold
+              2. .ff-hint-label, small italic hint below title
+          4. .ff-arrow, the arrow icon
+    3. Progress Bar
+        1. .ff-progress-bar, grey container
+            2. .ff-progress, the action progress, in blue
+    4. Check Box
+        1. .ff-the-tick
+            1. .ff-icon
+        2. .ff-label, all text associated with the check box
+    5. SelectOption (dropdowns that might also be displayed as a full spread list of options for better UX on small screens)
+        1. .ff-select-option, when it's a regular dropdown is just a wrapper for a [third party library](https://vue-select.org/)
+            1. .ff-the-select-box, the third party element
+        2. .ff-select-option.ff-spread, in case the options list is spread on the screen instead of a dropdown, which makes it a sequence of ul li
+            1. .ff-select-option-filter, the filter text input that might be present or not, based on configuration. See details in Generic Input
+            2. ul.ff-select-option-options, the actual options list
+            3. li.ff-select-option-label, some spread lists might have a first static list item that is simply a label for the list
+            3. li, all the option list items
+    6. Generic Input, the basic inputs such as text and number input
+        1. .ff-generic-input
+            1. .ff-label, contains the label text and might contain other elements
+            2. input, the basic native html input element
+7. Regarding the disabled state
+    1. Button and Go Ahead Button have a disabled state that can be targeted with the attribute selector [disabled]
+    2. Generic Input will have .ff-disabled in its root .ff-generic-input element, and [disabled] in the native input element
+    3. Select Option will contain .ff-disabled in its root
+8. Regarding focused state
+    1. Being a wrapper for a native html input, the Generic Input element :focus state can be targeted directly .ff-generic-input input:focus, to change the default border surrounding it
+9. Other states will still be made available
+
+
+### Adding styles using javascript
+Of course, it's not necessary to include stylesheets in such a 90's manner. Styles injected via bundler's such as webpack will work without any issues. Another way is to inject them manually
+```javascript
+var style = document.createElement('style');
+style.innerHTML = `
+  #ff-onboarding-widget {
+    font-family: "Comic Sans MS"
+  }
+`;
+document.head.appendChild(style);
+```
+
+
+
+## Custom Styles
+
+![Custom Styles](screenshots/customizing-styles.jpg)
+
+## Initialisation in script tag and custom styles.
+This is in demo mode, so ff-onboarding-widget tag is missing the token in ff attribute
+![Custom Styles](screenshots/basic-initialisation.png)
+
+## Changing font
+![Custom Styles](screenshots/changing-font.png)
+
+## Custom Styles
+![Custom Styles](screenshots/custom-styles.png)
