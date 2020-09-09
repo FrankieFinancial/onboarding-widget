@@ -355,32 +355,68 @@ Selectors throughout the widget were intended to facilitate overriding their sty
 2. Selectors are prefixed with "ff-", to avoid targetting external elements
 3. Page titles can be targeted with .ff-title
 4. Page subtitles can be targeted with .ff-subtitle
-5. Every page has multiple levels of containers, which can be used to target specific views. They are named View, Form and Input, but that only refers to how they access data internally and has no meaning to how they should be displayed or how they behave externally, so you may disregard that naming.
+5. Every page has multiple levels of containers, which can be used to target specific views. They are named View, Form and Input, but that only refers to how they access data internally and has no meaning to how they should be displayed or how they behave externally, so you may disregard that naming. In the list below, an item in the form [class &&] followed by an indented inner list means the class is appended with one of the following classes. Otherwise idented inner lists mean they are contained within the parent class. Classes usually have multiple intermediary containers not mentioned here, so avoid using the direct child selector (>).
     1. .ff-welcome-view
-    2. .ff-document-form
-        1. .ff-document-type
-        2. .ff-document-input, which will also be one of
-            1. .ff-passport-input
-            2. .ff-medicare-input
-            3. .ff-licence-inputs-container
-    3. .ff-personal-details-form, which contain
-        1. .ff-fullname-input
-        2. .ff-dob-input
-        3. .ff-address-input
-            1. .ff-address-autocomplete
-            2. .ff-address-manual-input
-    4. .ff-details-review
+    2. .ff-initial-data-view
+        1. .ff-document-form
+            1. .ff-document-type
+            2. [.ff-document-input &&]
+                1. .ff-passport-input
+                2. .ff-medicare-input
+                3. .ff-licence-inputs-container
+        2. .ff-personal-details-form, which contain
+            1. .ff-fullname-input
+            2. .ff-dob-input
+            3. .ff-address-input
+                1. .ff-address-autocomplete
+                2. .ff-address-manual-input
+    3. .ff-details-review
         1. .ff-document-review-input
         2. .ff-applicant-review-input
-        3. Here the inputs .ff-document-input, .ff-fullname-input, .ff-dob-input and .ff-address-manual-input appear again
-    5. .ff-no-match, which contain revision for personal details
+        3. .ff-the-input, which is the specific form being reviewed, shown after clicking the pen to edit that specific field. It will also contain one of the following classes that have been shown before in .ff-initial-data-view
+            1. [.ff-document-input && classes for document type] as mentioned in .ff-initial-data-view .ff-document-form .ff-document-input
+            2. .ff-fullname-input
+            3. .ff-dob-input
+            4. .ff-address-manual-input
+    4. .ff-no-match, which contain revision for personal details
         1. .ff-warning-no-match
-        2. .ff-personal-details-form
-    6. .ff-partial-match, which contain revision for document details
+        2. .ff-personal-details-form, which contain all the classes from .ff-initial-data-view .ff-personal-details-form, mentioned above
+    5. .ff-partial-match, which contain revision for document details
         1. .ff-warning-partial-match
         2. .ff-review-document
+        3. .ff-the-input, like mentioned above, in .ff-details-review .ff-the-input, but here it will only contain [.ff-document-input && clases for document type]
         3. .ff-document-form
-    7. .ff-warning-success
-    8. .ff-failure-view
+    6. .ff-warning-success
+    7. .ff-failure-view
+6. Most basic elements come from our external component library and for that reason they have stronger targeted styles. They are elements such as Form inputs, Progress Bar, Dropdowns, Check Boxes, Buttons and What we call Go Ahead Buttons, which are Buttons with And Icon, Text, Hint and an Arrow icon pointing to the right. They can still be targeted but might require greater specificity, including the use of !important rules. Their inner structure is the following.
+    1. Button
+        1. button.ff-basic-button, which is a simple button element
+    2. Go Ahead Button
+        1. button.ff-goahead-button
+          2. .ff-icon, the custom icon
+          3. .ff-label
+              1. .ff-title, title in bold
+              2. .ff-subtitle, small italic hint below title
+          4. .ff-arrow, the arrow icon
+    3. Progress Bar
+        1. .ff-progress-bar, grey container
+            2. .ff-progress, the action progress, in blue
+    4. Check Box
+        1. .ff-the-tick
+            1. .ff-icon
+        2. .ff-label
+    5. SelectOption (dropdowns that might be displayed as a full spread list of options for better UX on small screens)
+        1. .ff-select-option, when it's a regular dropdown
+            1. .ff-the-select-box
+        2. .ff-select-option.ff-spread, in case the options list is spread on the screen instead of a dropdown
+            1. .ff-select-option-filter, the filter text input that might be present or not, based on configuration. See details in Generic Input
+            2. ul.ff-select-option-options, the actual options list
+            3. li.ff-select-option-label, some spread lists might have a first static list item that is simply a label for the list
+            3. li, all the option list items
+    6. Generic Input, the basic inputs such as text and number input
+        1. .ff-generic-input
+            1. .ff-label, contains the label and might contain other elements
+            2. input, the basic html input element
+
 
 
