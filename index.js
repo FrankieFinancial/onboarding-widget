@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
         customerId = process.env.FRANKIE_CUSTOMER_ID,
         customerChildId = process.env.FRANKIE_CUSTOMER_CHILD_ID;
     // Set the applicant reference to any string you can use to identify this applicant
-    const applicantReference = "6999-new-applicant"; // Math.floor(Math.random() * 9999) + "-new-applicant";
+    const applicantReference = Math.floor(Math.random() * 9999) + "-new-applicant";
     // Set widget configurations as defined in "Configuration"
     const widgetConfiguration = {
         mode: process.env.NODE_ENV,
@@ -45,19 +45,26 @@ app.get('/', (req, res) => {
     // "authorization": `machine ${encodedCreentials}`
     // and extract the header "token" from the response
     const frankieUrl = process.env.FRANKIE_API_URL;
-    axios.post(`${frankieUrl}/auth/v1/machine-session`, {}, {
-        headers: { authorization: "machine " + encodedCredentials }
-    }).then(data => {
-        const headers = data.headers;
-        const ffToken = headers.token;
-        // pass the extracted token to the widget as an html attribute called 'ff-token' (see demo.ejs)
+    const render = (ffToken) => {
         res.render('the-web-page.ejs', {
             title: "Frankie Financial Widget Demo",
-            ffToken: ffToken,
+            ffToken: ffToken || "",
             widgetConfiguration,
             applicantReference
         });
-    }).catch(console.error);
+    }
+    if (process.env.NODE_ENV === 'demo') {
+        render();
+    } else {
+        axios.post(`${frankieUrl}/auth/v1/machine-session`, {}, {
+            headers: { authorization: "machine " + encodedCredentials }
+        }).then(data => {
+            const headers = data.headers;
+            const ffToken = headers.token;
+            // pass the extracted token to the widget as an html attribute called 'ff-token' (see demo.ejs)
+            render(ffToken);
+        }).catch(console.error);
+    }
 });
 
 let server, protocol;
