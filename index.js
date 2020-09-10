@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
         customerId = process.env.FRANKIE_CUSTOMER_ID,
         customerChildId = process.env.FRANKIE_CUSTOMER_CHILD_ID;
     // Set the applicant reference to any string you can use to identify this applicant
-    const applicantReference = "6999-new-applicant"; // Math.floor(Math.random() * 9999) + "-new-applicant";
+    const applicantReference = Math.floor(Math.random() * 9999) + "-new-applicant";
     // Set widget configurations as defined in "Configuration"
     const widgetConfiguration = {
         mode: process.env.NODE_ENV,
