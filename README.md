@@ -272,7 +272,7 @@ frankieBackendUrl: string = "https://defaults-to-valid-frankie-url",
 // array of accepted document types
 // where DocType = 'PASSPORT' | 'DRIVERS_LICENCE' | 'NATIONAL_HEALTH_ID'
 documentTypes: DocType[] = ["PASSPORT", "DRIVERS_LICENCE", "NATIONAL_HEALTH_ID"]
-
+// to hide the welcome screen, simply make welcomeScreen === false
 welcomeScreen: boolean | {
   // html string to be displayed in the welcome screen. It accepts style tags,
   //   but script tags will be stripped out.
