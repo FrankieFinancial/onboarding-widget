@@ -150,7 +150,7 @@ token: {Frankie generated token}
         });
     }
     var body = document.getElementsByTagName("body")[0];
-    body.addEventListener("load", onLoaded);
+    document.addEventListener('DOMContentLoaded', onLoaded);
 </script>
 
 ```
