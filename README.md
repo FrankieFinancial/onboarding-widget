@@ -126,7 +126,7 @@ Body
 ```
 token: {Frankie generated token}
 ```
-4. Add both the link to the desired font family and script tag to the widget .js file to the head of the webpage. Since v2.3.0 you also need to initialise the widget by calling a global javascript function where you pass the [configuration](#configuration) object and the applicant reference.
+4. Add both the link to the desired font family and script tag to the widget .js file in the head of the webpage. Since v2.3.0 you also need to initialise the widget by calling a global javascript function, where you pass the [configuration](#configuration) object and the applicant reference. The initialisation needs to be done after the page is mounted, so the widget element is already available. In plain html that is in the event body.onload (see snippet below).
     1. "Applicant reference number" is your own internal ID. If you have previously sent this data to Frankie, the service will automatically retrieve that data and attempt to pre-populate this widget with the data available.
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
@@ -205,7 +205,7 @@ Example in Node + Express + Axios
   }).then(data => {
     const headers = data.headers;
     const ffToken = headers.token;
-    // pass the extracted token to the widget as an html attribute called 'ff-token' (see demo.ejs)
+    // pass the extracted token to the widget as an html attribute called 'ff' (see "Embedding widget" below)
     res.render('the-web-page.ejs', {
       title: "Frankie Financial Widget Demo",
       ffToken: ffToken,
@@ -223,15 +223,15 @@ Head of the html page (link to font and the js file)
   <head>
     <!-- viewport meta is recommended for responsive pages -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- initially only the Roboto font family is supported and therefore the following line is required to be included. This will be configurable in next iterations -->
+    <!-- install your font, if you don't already have it -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
     <!-- Include the Web component script -->
     <script src="https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js"></script>
-    <script> /* initialisation as mentioned above */ </script>
+    <script> /* initialisation as mentioned above, in "Getting started" */ </script>
   </head>
 ```
 
-Body of the html page, wherever desired
+Body of the html page, wherever desired. The token will be stripped out of the html as soon as it's read.
 
 ```html
 <body>
