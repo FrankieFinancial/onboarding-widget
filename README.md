@@ -1,6 +1,6 @@
-# Frankie Onboarding UI Screens
+# Frankie Smart UI Onboarding Screens
 
-## https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js
+#### https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js
 
 ## Table of contents
 
@@ -9,24 +9,18 @@
 - [Getting started](#getting-started)
 - [Configuration](#configuration)
 - [Custom Styles](#styling)
+- [Changelog](#changelog)
 
-## Changelog of September 9th v2.2.0 -> v2.3.0
-1. Frankie UI Screens are now hosted by Frankie on https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js
-2. Minor improvements in responsive design.
-3. Fix for Safari bug detecting blur event on date of birth inputs.
-4. Preload of customers data added. Only applies when applicant is found on Frankie's database using "applicantReference".
-5. White labeling added. This allowes external styles to penetrate all components within the UI Screen.
-6. New function for initialising UI Screens, without needing to manually serialise configuration. This also clears attributes from the root of the html element.
 ## Overview
 
-Our self onboarding UI Screens allows you to connect your customers directly with Frankie Financial's identity verification and validation services.
+Our self onboarding Smart UI allows you to connect your customers directly with Frankie Financial's identity verification and validation services.
 They will provide their minimum basic information, we will run all the checks you choose and then signal back to you that the Applicant is ready to be onboarded, right there in the platform it's embeded.
 
 - The first step is to make sure you have credentials previously provided to your organisation by Frankie: the Customer ID and the api key. Some organisations will also have a Customer child ID.
-- With those in hand you will be able to authenticate to our backend service and generate a secure temporary token that will allow the UI Screen to connect to Frankie Services with limited permissions.
-- Now you only need to provide the UI Screen with that token and optional configuration to customise the behaviour to meet your own goals.
+- With those in hand you will be able to authenticate to our backend service and generate a secure temporary token that will allow the Smart UI to connect to Frankie Services with limited permissions.
+- Now you only need to provide the Smart UI with that token and optional configuration to customise the behaviour to meet your own goals.
 
-Simply put, the UI Screens are a reusable Web Component or "widget".
+Simply put, the Smart UI is a reusable Web Component or "widget".
 
 ## Get either the .min.js or the .js file from the folder "static" in this repository
 
@@ -34,7 +28,7 @@ Simply put, the UI Screens are a reusable Web Component or "widget".
 
 ## Demo
 
-To see the UI Screens in action, please run the demo script in this repository, as follows.
+To see the Smart UI in action, please run the demo script in this repository, as follows.
 
 **If you don't have Frankie credentials** or were not provided a Frankie backend URL
 
@@ -51,12 +45,12 @@ If you've received your developer welcome email and welcome pack, you'll be usin
 
 https://backend.demo.frankiefinancial.io
 
-You will need to pass this in to the configuration object. See details on the [configuration object](#configuration) below on how to pass this URL into the UI Screen.
+You will need to pass this in to the configuration object. See details on the [configuration object](#configuration) below on how to pass this URL into the Smart UI.
 
 
 **If you have Frankie Production Credentials**
 
-Some organisations may be issued their own specific Frankie environment and will therefore have a dedicated URL to use. See details on the [configuration object](#configuration) below on how to pass this URL into the UI Screen.
+Some organisations may be issued their own specific Frankie environment and will therefore have a dedicated URL to use. See details on the [configuration object](#configuration) below on how to pass this URL into the Smart UI.
 
 If you're using the standard production service, there is no extra step - the default URL will go to the primary production backend service.
 
@@ -101,7 +95,7 @@ Header
 ```
 authorization: machine {encoded credentials}
 ```
-**Optionally include a field "referrer" in the request's body, with the pattern to be used to verify the url from which calls can be made using the token.The referrer sent by the browser must match the referrer URL pattern in the JWT for the UI Screen to successfully authenticate**
+**Optionally include a field "referrer" in the request's body, with the pattern to be used to verify the url from which calls can be made using the token.The referrer sent by the browser must match the referrer URL pattern in the JWT for the Smart UI to successfully authenticate**
 
 *The referrer is based on the Google Chrome match pattern URLs. URLs can contain wild card characters. You can read more about it here [ match pattern](https://developer.chrome.com/extensions/match_patterns)*.
 
@@ -126,8 +120,8 @@ Body
 ```
 token: {Frankie generated token}
 ```
-4. Add both the link to the desired font family and script tag to the UI Screen .js file in the head of the webpage. Since v2.3.0 you also need to initialise the UI Screen by calling a global javascript function, where you pass the [configuration](#configuration) object and the applicant reference. The initialisation needs to be done after the page is mounted, so the widget element is already available. In plain html that is in the event body.onload (see snippet below).
-    1. "Applicant reference number" is your own internal ID. If you have previously sent this data to Frankie, the service will automatically retrieve that data and attempt to pre-populate this UI Screen with the data available.
+4. Add both the link to the desired font family and script tag to the Smart UI .js file in the head of the webpage. Since v2.3.0 you also need to initialise the Smart UI by calling a global javascript function, where you pass the [configuration](#configuration) object and the applicant reference. The initialisation needs to be done after the page is mounted, so the widget element is already available. In plain html that is in the event body.onload (see snippet below).
+    1. "Applicant reference number" is your own internal ID. If you have previously sent this data to Frankie, the service will automatically retrieve that data and attempt to pre-populate this Smart UI with the data available.
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <script src="https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js"></script>
@@ -175,7 +169,7 @@ Example in Node + Express + Axios
   // Note: the example here is just that. Use your own unique identifier.
   const applicantReference = Math.floor(Math.random() * 9999) + "-new-applicant";
 
-  // Set UI Screen configurations as defined in "Configuration"
+  // Set Smart UI configurations as defined in "Configuration"
   const widgetConfiguration = {
     mode: process.env.NODE_ENV,
     documentTypes: ['PASSPORT', 'DRIVERS_LICENCE', 'NATIONAL_HEALTH_ID'],
@@ -205,9 +199,9 @@ Example in Node + Express + Axios
   }).then(data => {
     const headers = data.headers;
     const ffToken = headers.token;
-    // pass the extracted token to the UI Screen as an html attribute called 'ff' (see "Embedding UI Screen" below)
+    // pass the extracted token to the Smart UI as an html attribute called 'ff' (see "Embedding Smart UI" below)
     res.render('the-web-page.ejs', {
-      title: "Frankie Financial UI Screens Demo",
+      title: "Frankie Financial Smart UI Demo",
       ffToken: ffToken,
       widgetConfiguration,
       applicantReference
@@ -215,7 +209,7 @@ Example in Node + Express + Axios
   })
 ```
 
-## 2. Embedding UI Screen
+## 2. Embedding Smart UI
 
 Head of the html page (link to font and the js file)
 
@@ -251,11 +245,11 @@ More configurations and customisations will be available soon. Right now our goa
 - [x] Customize success page redirect url
 - [x] Customize font
 - [x] Customize all styles freely
-- [ ] Dispatch events on every step of the progress of the user to allow greater interaction between the host platform and the UI Screen
+- [ ] Dispatch events on every step of the progress of the user to allow greater interaction between the host platform and the Smart UI
 - [ ] Reduce file size by splitting it in multiple assets hosted by Frankie.
 - [ ] Customize success page content
 - [ ] Create public credentials that can be used directly by the frontend, with no backend required
-- [ ] Customize text throughout the UI Screen
+- [ ] Customize text throughout the Smart UI
 - [ ] Customize progress bar range, start value and end value
 
 ## All current options and their defaults
@@ -288,7 +282,7 @@ maxAttemptCount: number = 5
 
 successScreen: {
   // url to redirect after applicant clicks button in the successful page
-  // by default (ctaUrl === null) the UI Screen only displays a successful message
+  // by default (ctaUrl === null) the Smart UI only displays a successful message
   // you can always include the applicant-reference as a query parameter to continue any
   //    remaining onboarding steps that might come after the identity verification.
   // As any traditional html link, ctaUrl can also include a call to a global
@@ -299,7 +293,7 @@ successScreen: {
 
 failureScreen: {
   // url to redirect after applicant clicks button when onboarding has failed
-  // by default the UI Screen only displays a failure message
+  // by default the Smart UI only displays a failure message
   // you can always include the applicant-reference as a query parameter to provide any further steps.
   // As any traditional html link, ctaUrl can also include a call to a global javascript function,
   //   "javascript:ffFailure('string-with-applicant-reference')"
@@ -319,7 +313,7 @@ progressBar: boolean = true
 checkProfile: string = "auto"
 
 // Google api key for the address auto complete. For the demo we provide our own api automatically.
-// Otherwise if this field is missing the UI Screen will skip the address autocomplete screen.
+// Otherwise if this field is missing the Smart UI will skip the address autocomplete screen.
 // More information right after this code bloc
 googleAPIKey: string | false =  false
 
@@ -340,9 +334,9 @@ organisationName: string = <Organisation name as configured during Frankie onboa
 please visit the [Google Developer Console](https://console.developers.google.com/). \
 The API's that you have to enable in your Google API Manager Dashboard are **Google Maps Geocoding API, Google Places API Web Service and Google Maps Javascript API**.
 
-## Passing the configuration object to the UI Screen
+## Passing the configuration object to the Smart UI
 
-Since HTML attributes can only be strings, the configuration object needs to be serialised and URI encoded before it's included in the UI Screen's attribute **config**
+Since HTML attributes can only be strings, the configuration object needs to be serialised and URI encoded before it's included in the Smart UI's attribute **config**
 
 ```javascript
 encodeURI(JSON.stringify(widgetConfiguration));
@@ -402,11 +396,11 @@ The **config** attribute
 
 ## Styling
 Since v2.3.0, the shadow DOM was removed and external styles can now target elements within &lt;ff-onboarding-widget>. This means it's now possible to customize it to look like it belongs to the host platform.
-While that is an advantage overall, it also means some unintentional styles may be injected into the UI Screens and have undesireble effects. Most websites and web applications don't use generic element selectors as they don't target anything specific, but let us know if your platform requires a version which is isolated using the shadow DOM. (examples below)
+While that is an advantage overall, it also means some unintentional styles may be injected into the Smart UI and have undesireble effects. Most websites and web applications don't use generic element selectors as they don't target anything specific, but let us know if your platform requires a version which is isolated using the shadow DOM. (examples below)
 
 
-Selectors throughout the UI Screens were intended to facilitate overriding their styles, but we're open to suggestions and requests on how to make style override simpler. Here is a quick guide on how to override styles:
-1. The font-family for the UI Screens can be changed targeting the root #ff-onboarding-widget. Any font-family available on the page can be used. The default styling expect the following font weights and styles, where weights fallback to the closest available one:
+Selectors throughout the Smart UI are intended to facilitate overriding their styles, but we're open to suggestions and requests on how to make style override simpler. Here is a quick guide on how to override styles:
+1. The font-family for the Smart UI can be changed targeting the root #ff-onboarding-widget. Any font-family available on the page can be used. The default styling expect the following font weights and styles, where weights fallback to the closest available one:
     1. 300, Regular
     2. 300, Italic
     3. 400, Regular
@@ -512,3 +506,14 @@ This is in demo mode, so ff-onboarding-widget tag is missing the token in ff att
 
 ## Custom Styles
 ![Custom Styles](screenshots/custom-styles.png)
+
+
+## Changelog
+
+#### Changelog of September 9th v2.2.0 -> v2.3.0
+1. Frankie Smart UI is now hosted by Frankie on https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js
+2. Minor improvements in responsive design.
+3. Fix for Safari bug detecting blur event on date of birth inputs.
+4. Preload of customers data added. Only applies when applicant is found on Frankie's database using "applicantReference".
+5. White labeling added. This allowes external styles to penetrate all components within the Smart UI.
+6. New function for initialising Smart UI, without needing to manually serialise configuration. This also clears attributes from the root of the html element.
