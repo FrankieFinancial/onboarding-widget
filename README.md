@@ -327,6 +327,19 @@ ageRange: [number, number] = [18, 125];
 
 // Your organisation's name as displayed in the data submission consent text. Defaults to the name we have on record.
 organisationName: string = <Organisation name as configured during Frankie onboarding process>
+
+// Consent text to be displayed in the review page. Defaults to null, which will display our generic consent text
+// `I consent to the collection, use and disclosure of my personal information in accordance with
+//  ${organisationName} Privacy Policy, and consent to my personal information being disclosed to a
+//  credit reporting agency or my information being checked with the document issuer or official record holder
+//  in connection with a request to verify my identity in accordance with the AML/CTF Act`;
+consentText: string | null = null
+
+// When true the user will be required to include an address, when false the address pages are skipped.
+// When loading an existing applicant, if requestAddress is true and applicant don't have an address yet,
+// one will be included and the user will be required to input they're address details. Defaults to true, including the address pages by default.
+requestAddress: boolean = true
+
 ```
 
 ## To obtain a Google API key

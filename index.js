@@ -27,6 +27,8 @@ app.get('/', (req, res) => {
         frankieBackendUrl: process.env.FRANKIE_API_URL,
         checkProfile: process.env.CHECK_PROFILE,
         acceptedCountries: ["AUS", "NZL"],
+        requestAddress: true,
+        consentText: "I agree with the terms described in the Consent section of our webpage",
         successScreen: {
             ctaUrl: "javascript:ffSuccess('Success: " + applicantReference + "')"
         },
