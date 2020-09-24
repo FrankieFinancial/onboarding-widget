@@ -11,6 +11,9 @@ app.engine('html', require('ejs').renderFile);
 app.use(express.static('static'))
 
 app.get('/', (req, res) => {
+    // You may ignore the next two lines as this is for our own testing purposes.
+    const hasQueryAuthorisation = req.query.ff === process.env.PROTECTED_PW;
+    if (process.env.PROTECTED == 'true' && !hasQueryAuthorisation) return res.send("You're not authorised to see this page");
     // Have your Frankie credentials in hand
     const apiKey = process.env.FRANKIE_API_KEY,
         customerId = process.env.FRANKIE_CUSTOMER_ID,
