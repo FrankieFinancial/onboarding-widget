@@ -342,8 +342,8 @@ organisationName: string = <Organisation name as configured during Frankie onboa
 consentText: string | null = null
 
 // When true the user will be required to include an address, when false the address pages are skipped.
-// When loading an existing applicant, if requestAddress is true and applicant don't have an address yet,
-// one will be included and the user will be required to input they're address details. Defaults to true, including the address pages by default.
+// When loading an existing applicant, if requestAddress is true and applicant doesn't have an address yet,
+// one will be included and the user will be required to input their address details. Defaults to true, including the address pages by default.
 requestAddress: boolean = true
 
 ```
