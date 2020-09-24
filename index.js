@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv-flow').config();
 const fs = require("fs");
 const express = require('express');
 const https = require("https");
@@ -11,7 +11,6 @@ app.engine('html', require('ejs').renderFile);
 app.use(express.static('static'))
 
 app.get('/', (req, res) => {
-
     // Have your Frankie credentials in hand
     const apiKey = process.env.FRANKIE_API_KEY,
         customerId = process.env.FRANKIE_CUSTOMER_ID,
@@ -28,7 +27,7 @@ app.get('/', (req, res) => {
         checkProfile: process.env.CHECK_PROFILE,
         acceptedCountries: ["AUS", "NZL"],
         requestAddress: true,
-        consentText: "I agree with the terms described in the Consent section of our webpage",
+        consentText: "I agree with the terms described in the Consent section of the Company's webpage",
         successScreen: {
             ctaUrl: "javascript:ffSuccess('Success: " + applicantReference + "')"
         },
