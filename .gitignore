@@ -1,4 +1,4 @@
-.env
+.env.local
 node_modules
 bin/copy-build.sh
 *.cert
