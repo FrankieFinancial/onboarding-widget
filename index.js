@@ -72,7 +72,7 @@ app.get('/', (req, res) => {
 });
 
 let server, protocol;
-if (process.env.NODE_ENV === 'demo') {
+if (process.env.NODE_ENV === 'demo' || process.env.FORCE_HTTP == 'true') {
     protocol = "http";
     server = app;
 } else {
