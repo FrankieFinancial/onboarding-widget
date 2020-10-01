@@ -118,7 +118,7 @@ Whilst not required, this option is highly recommended, as it secures your short
 Body
 ```
 {
-    "referrer": "the-company.com" || "the-company.(io|com)(.au)?"
+    "referrer": "https://the-company.com" || "*://the-company.com/*"
 }
 ```
 3. The response will contain a short lived api token in the header parameter "token"
