@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
     const applicantReference = Math.floor(Math.random() * 9999) + "-new-applicant";
     // Set widget configurations as defined in "Configuration"
     const widgetConfiguration = {
-        mode: process.env.NODE_ENV,
+        mode: process.env.NODE_ENV, // The default mode is 'production', you shouldn't include this option when using the widget
         documentTypes: ['PASSPORT', 'DRIVERS_LICENCE', 'NATIONAL_HEALTH_ID'],
         maxAttemptCount: 5,
         googleAPIKey: process.env.GOOGLE_API || false,
