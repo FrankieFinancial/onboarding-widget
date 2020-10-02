@@ -115,11 +115,12 @@ Body
     "referrer": "https://the-company.com" || "*://the-company.com/*"
 }
 ```
-3. The response will contain a short lived api token in the header parameter "token"
+3. The response will contain a short lived api token in the **header parameter "token"**
 *This token is valid for 1 hour and is refreshed on each successful call to the backend.*
 ```
 token: {Frankie generated token}
 ```
+**Note:** The successful response body will include a configuration object that will most likely not be useful to your use case, but is used by our frontend to customise its behaviour. The configuration includes a message dictionary that might seem like error messages, but they aren't. You may disconsider anything found in the successful response body.
 4. Add both the link to the desired font family and script tag to the Smart UI .js file in the head of the webpage. Since v2.3.0 you also need to initialise the Smart UI by calling a global javascript function, where you pass the [configuration](#configuration) object and the applicant reference. The initialisation needs to be done after the page is mounted, so the widget element is already available. In plain html that is in the event body.onload (see snippet below).
     1. "Applicant reference number" is your own internal ID. If you have previously sent this data to Frankie, the service will automatically retrieve that data and attempt to pre-populate this Smart UI with the data available.
 ```
