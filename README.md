@@ -177,7 +177,6 @@ Example in Node + Express + Axios
 
   // Set widget configurations as defined in "Configuration"
   const widgetConfiguration = {
-    mode: process.env.NODE_ENV,
     documentTypes: ['PASSPORT', 'DRIVERS_LICENCE', 'NATIONAL_HEALTH_ID'],
     maxAttemptCount: 5,
     googleAPIKey: process.env.GOOGLE_API || false,
@@ -261,9 +260,6 @@ More configurations and customisations will be available soon. Right now our goa
 ## All current options and their defaults
 
 ```typescript
-// not necessary to change this options. It's simply a switch between "development",
-//   "demo" and "production"
-mode: 'demo' | 'production' | 'development' = 'production',
 
 // if your organisation has a special Frankie Backend URL, provide it here. If that's not applicable in
 //   your case, skip this configuration.
