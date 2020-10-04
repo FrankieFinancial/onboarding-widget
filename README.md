@@ -298,6 +298,15 @@ failureScreen: {
   ctaText: string = 'Contact Us'
 },
 
+pendingScreen: {
+  // This page is shown whenever the reason for a failure cannot be resolved on the widget
+  // in that case it will be necessary to resolve the issue manually, either on the portal or via direct API
+  // such situation would happen if the user was flagged with a PEP result
+  // the configuration in this case accepts multiple cta actions with text and url
+  // it's recommended to use no more than three actions
+  ctaActions: { text: string, url: string }[],
+},
+
 // If the progress bar should be rendered
 progressBar: boolean = true
 
@@ -336,7 +345,14 @@ consentText: string | null = null
 // When loading an existing applicant, if requestAddress is true and applicant doesn't have an address yet,
 // one will be included and the user will be required to input their address details. Defaults to true, including the address pages by default.
 requestAddress: boolean = true
-
+// when lazyIDCheck is true, it means that the ID details will only be requested to the user if they fail KYC check using their personal details
+lazyIDCheck: boolean = false
+// when requestAddress is false, address will be skipped all together, reducing the number of steps to complete the forms,
+// but also reducing the chances of a positive match
+requestAddress: boolean = true
+// when idScanVerification is true, we'll include a third party "Onfido UI" at the end of the normal flow
+// to request and check validity of document scans using OCR
+idScanVerification: boolean = false
 ```
 
 ## To obtain a Google API key
