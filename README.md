@@ -555,6 +555,12 @@ This is in demo mode, so ff-onboarding-widget tag is missing the token in ff att
 
 ## Changelog
 
+#### Changelog of October 5th v2.3.0 -> v2.4.0
+1. Frankie Smart UI now supports Biometric verification using the Onfido Id Verification Service
+which has been integrated in its workflow.
+2. Ability to configure the consent text in the document review screen.
+3. Number of UI/UX fixes and improvements to the overall flow. 
+
 #### Changelog of September 9th v2.2.0 -> v2.3.0
 1. Frankie Smart UI is now hosted by Frankie on https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js
 2. Minor improvements in responsive design.
