@@ -350,23 +350,23 @@ lazyIDCheck: boolean = false
 // when requestAddress is false, address will be skipped all together, reducing the number of steps to complete the forms,
 // but also reducing the chances of a positive match
 requestAddress: boolean = true
-// when idScanVerification is true, we'll include the Onfido ID Verification UI at the end of the 
-// normal flow to request and check validity of document scans using OCR
- idScanVerification: boolean = false | {
-   //This will appear in the introduction screen of the onfido UI. Use this to explain 
-   //to your users that they need to supply identity documents and face photos
-   // to have their identities verified.
-   // the default welcome screen is available in the screenshot at the Smart UI - Onfido section
-    welcomeScreen: boolean | {
-      // title of the welcome screen
-      title: string,
-      // any instructions you want to provide to the user, this is passed as an array of string
-      // where each entry in the array gets rendered as a paragraph
-      content: string[],
-      // label text for the next button
-      ctaText: boolean | string,
-    },
-  };
+// when idScanVerification is truthy (either a boolean true or a configuration object), we'll include the Onfido ID Verification UI at the end of the 
+// normal flow to request and check the validity of document scans using OCR
+idScanVerification: boolean = boolean | {
+// The welcome screen for idScanVerification is the introduction screen belonging to the onfido UI (third party). 
+// You may use this to explain in your own terms that they will be required to supply identity documents and a photo of their face
+// If no configuration object is provided, you must pass the boolean true, otherwise by default there will be no id scan verification.
+// In that case, the default welcome screen is displayed. You can find a screenshot of that screen in the section Smart UI - Onfido.
+welcomeScreen: boolean | {
+  // title of the welcome screen
+  title: string,
+  // any instructions you want to provide to the user, this is passed as an array of string
+  // where each entry in the array gets rendered as a paragraph
+  content: string[],
+  // label for the cta button
+  ctaText: boolean | string,
+},
+};
 ```
 
 ## To obtain a Google API key
@@ -448,6 +448,8 @@ Its designed to help you seamlessly integrate the photo capturing process by dir
 the image to the Onfido service, to simplify integration into your application flow.
 Users will be prompted to use the camera on their mobile devices to take a photo of their document.
 This is followed by the face capture step to capture their face using selfie photos.
+
+For users on desktop this part of the flow will force them to submit pictures using their phone. They will be sent from their computers to their phone via QR code or by SMS messages.
 
 **Note:** The current document types we support using the Onfido OCR verification are Passport and Driver's Licence.
 
