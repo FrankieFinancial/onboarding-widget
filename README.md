@@ -353,10 +353,15 @@ requestAddress: boolean = true
 // when idScanVerification is true, we'll include the Onfido ID Verification UI at the end of the 
 // normal flow to request and check validity of document scans using OCR
  idScanVerification: boolean = false | {
+   //This will appear in the introduction screen of the onfido UI. Use this to explain 
+   //to your users that they need to supply identity documents and face photos
+   // to have their identities verified.
+   // the default welcome screen is available in the screenshot at the Smart UI - Onfido section
     welcomeScreen: boolean | {
       // title of the welcome screen
       title: string,
-      // any instructions you want to provide to the user
+      // any instructions you want to provide to the user, this is passed as an array of string
+      // where each entry in the array gets rendered as a paragraph
       content: string[],
       // label text for the next button
       ctaText: boolean | string,
@@ -413,7 +418,14 @@ Example configuration object
     googleAPIKey: false
     acceptedCountries: ["AUS", "NZL"],
     ageRange:[18, 125],
-    organisationName: "organisation"
+    organisationName: "organisation",
+    idScanVerification: {
+      welcomeScreen: {
+        title: 'Verify your identity',
+        content:["We need to collect some personal information to verify your identity before we can open your account."],
+        ctaText: 'Start Identity Verification',
+      },
+    }
   };
 
 ```
@@ -438,6 +450,8 @@ Users will be prompted to use the camera on their mobile devices to take a photo
 This is followed by the face capture step to capture their face using selfie photos.
 
 **Note:** The current document types we support using the Onfido OCR verification are Passport and Driver's Licence.
+
+![Onfido welcome screen](screenshots/onfido-welcome-screen.png)
 
 ## Styling
 Since v2.3.0, the shadow DOM was removed and external styles can now target elements within &lt;ff-onboarding-widget>. This means it's now possible to customize it to look like it belongs to the host platform.
@@ -560,7 +574,7 @@ This is in demo mode, so ff-onboarding-widget tag is missing the token in ff att
 which has been integrated in its workflow.
 2. Ability to configure the consent text in the document review screen.
 3. New configuration lazyIDCheck and requestAddress added to make the flow more configurable.
-3. Number of UI/UX fixes and improvements to the overall flow. 
+4. Number of UI/UX fixes and improvements to the overall flow. 
 
 #### Changelog of September 9th v2.2.0 -> v2.3.0
 1. Frankie Smart UI is now hosted by Frankie on https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js
