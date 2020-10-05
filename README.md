@@ -559,6 +559,7 @@ This is in demo mode, so ff-onboarding-widget tag is missing the token in ff att
 1. Frankie Smart UI now supports Biometric verification using the Onfido Id Verification Service
 which has been integrated in its workflow.
 2. Ability to configure the consent text in the document review screen.
+3. New configuration lazyIDCheck and requestAddress added to make the flow more configurable.
 3. Number of UI/UX fixes and improvements to the overall flow. 
 
 #### Changelog of September 9th v2.2.0 -> v2.3.0
