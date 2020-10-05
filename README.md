@@ -350,9 +350,18 @@ lazyIDCheck: boolean = false
 // when requestAddress is false, address will be skipped all together, reducing the number of steps to complete the forms,
 // but also reducing the chances of a positive match
 requestAddress: boolean = true
-// when idScanVerification is true, we'll include a third party "Onfido UI" at the end of the normal flow
-// to request and check validity of document scans using OCR
-idScanVerification: boolean = false
+// when idScanVerification is true, we'll include the Onfido ID Verification UI at the end of the 
+// normal flow to request and check validity of document scans using OCR
+ idScanVerification: boolean = false | {
+    welcomeScreen: boolean | {
+      // title of the welcome screen
+      title: string,
+      // any instructions you want to provide to the user
+      content: string[],
+      // label text for the next button
+      ctaText: boolean | string,
+    },
+  };
 ```
 
 ## To obtain a Google API key
@@ -419,6 +428,16 @@ The **config** attribute
     config="<%- encodeURI(JSON.stringify(widgetConfiguration)) %>"></ff-onboarding-widget>
 </body>
 ```
+
+## Smart UI - Onfido
+
+Our Smart UI has integrated the Onfido Identity Verfication service within its workflow to allow capturing of identity documents and face photos for the purpose of identity verification.
+Its designed to help you seamlessly integrate the photo capturing process by directly uploading 
+the image to the Onfido service, to simplify integration into your application flow.
+Users will be prompted to use the camera on their mobile devices to take a photo of their document.
+This is followed by the face capture step to capture their face using selfie photos.
+
+**Note:** The current document types we support using the Onfido OCR verification are Passport and Driver's Licence.
 
 ## Styling
 Since v2.3.0, the shadow DOM was removed and external styles can now target elements within &lt;ff-onboarding-widget>. This means it's now possible to customize it to look like it belongs to the host platform.
