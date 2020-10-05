@@ -350,9 +350,23 @@ lazyIDCheck: boolean = false
 // when requestAddress is false, address will be skipped all together, reducing the number of steps to complete the forms,
 // but also reducing the chances of a positive match
 requestAddress: boolean = true
-// when idScanVerification is true, we'll include a third party "Onfido UI" at the end of the normal flow
-// to request and check validity of document scans using OCR
-idScanVerification: boolean = false
+// when idScanVerification is truthy (either a boolean true or a configuration object), we'll include the Onfido ID Verification UI at the end of the 
+// normal flow to request and check the validity of document scans using OCR
+idScanVerification: boolean = boolean | {
+// The welcome screen for idScanVerification is the introduction screen belonging to the onfido UI (third party). 
+// You may use this to explain in your own terms that they will be required to supply identity documents and a photo of their face
+// If no configuration object is provided, you must pass the boolean true, otherwise by default there will be no id scan verification.
+// In that case, the default welcome screen is displayed. You can find a screenshot of that screen in the section Smart UI - Onfido.
+welcomeScreen: boolean | {
+  // title of the welcome screen
+  title: string,
+  // any instructions you want to provide to the user, this is passed as an array of string
+  // where each entry in the array gets rendered as a paragraph
+  content: string[],
+  // label for the cta button
+  ctaText: boolean | string,
+},
+};
 ```
 
 ## To obtain a Google API key
@@ -404,7 +418,14 @@ Example configuration object
     googleAPIKey: false
     acceptedCountries: ["AUS", "NZL"],
     ageRange:[18, 125],
-    organisationName: "organisation"
+    organisationName: "organisation",
+    idScanVerification: {
+      welcomeScreen: {
+        title: 'Verify your identity',
+        content:["We need to collect some personal information to verify your identity before we can open your account."],
+        ctaText: 'Start Identity Verification',
+      },
+    }
   };
 
 ```
@@ -419,6 +440,20 @@ The **config** attribute
     config="<%- encodeURI(JSON.stringify(widgetConfiguration)) %>"></ff-onboarding-widget>
 </body>
 ```
+
+## Smart UI - Onfido
+
+Our Smart UI has integrated the Onfido Identity Verfication service within its workflow to allow capturing of identity documents and face photos for the purpose of identity verification.
+Its designed to help you seamlessly integrate the photo capturing process by directly uploading 
+the image to the Onfido service, to simplify integration into your application flow.
+Users will be prompted to use the camera on their mobile devices to take a photo of their document.
+This is followed by the face capture step to capture their face using selfie photos.
+
+For users on desktop this part of the flow will force them to submit pictures using their phone. They will be sent from their computers to their phone via QR code or by SMS messages.
+
+**Note:** The current document types we support using the Onfido OCR verification are Passport and Driver's Licence.
+
+![Onfido welcome screen](screenshots/onfido-welcome-screen.png)
 
 ## Styling
 Since v2.3.0, the shadow DOM was removed and external styles can now target elements within &lt;ff-onboarding-widget>. This means it's now possible to customize it to look like it belongs to the host platform.
@@ -535,6 +570,13 @@ This is in demo mode, so ff-onboarding-widget tag is missing the token in ff att
 
 
 ## Changelog
+
+#### Changelog of October 5th v2.3.0 -> v2.4.0
+1. Frankie Smart UI now supports Biometric verification using the Onfido Id Verification Service
+which has been integrated in its workflow.
+2. Ability to configure the consent text in the document review screen.
+3. New configuration lazyIDCheck and requestAddress added to make the flow more configurable.
+4. Number of UI/UX fixes and improvements to the overall flow. 
 
 #### Changelog of September 9th v2.2.0 -> v2.3.0
 1. Frankie Smart UI is now hosted by Frankie on https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js
