@@ -344,12 +344,15 @@ consentText: string | null = null
 // When true the user will be required to include an address, when false the address pages are skipped.
 // When loading an existing applicant, if requestAddress is true and applicant doesn't have an address yet,
 // one will be included and the user will be required to input their address details. Defaults to true, including the address pages by default.
-requestAddress: boolean = true
-// when lazyIDCheck is true, it means that the ID details will only be requested to the user if they fail KYC check using their personal details
-lazyIDCheck: boolean = false
 // when requestAddress is false, address will be skipped all together, reducing the number of steps to complete the forms,
 // but also reducing the chances of a positive match
 requestAddress: boolean = true
+// when lazyIDCheck is true, it means that the ID details will only be requested to the user if they fail KYC check using their personal details
+lazyIDCheck: boolean = false
+// similarly to requestAddress above, when requestID is false, the screens requesting document details are skipped
+// to successfully use this configuration, checkProfile needs to be configured to a profile type that allowes optional IDs.
+// We can help sorting this out
+requestID: boolean = true
 // when idScanVerification is truthy (either a boolean true or a configuration object), we'll include the Onfido ID Verification UI at the end of the 
 // normal flow to request and check the validity of document scans using OCR
 idScanVerification: boolean = boolean | {
