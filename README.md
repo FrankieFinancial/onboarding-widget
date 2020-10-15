@@ -366,6 +366,11 @@ welcomeScreen: boolean | {
   // label for the cta button
   ctaText: boolean | string,
 },
+// Whenever checks fail for reasons not possible to be resolved on the widget, the Pending screen is displayed
+// For this page it's possible to configure multiple the ctaButtons, as below
+pendingScreen: {
+    ctaActions: { text: string, url: string }[]
+  }
 };
 ```
 
