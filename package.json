@@ -16,7 +16,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/kycutility/onboarding-widget-docs#readme",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "dotenv-flow": "^3.2.0",
