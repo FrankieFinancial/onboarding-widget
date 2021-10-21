@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
         googleAPIKey: process.env.GOOGLE_API || false,
         frankieBackendUrl: process.env.FRANKIE_API_URL,
         checkProfile: process.env.CHECK_PROFILE,
-        acceptedCountries: ["AUS", "NZL"],
+        acceptedCountries: null,
         requestAddress: true,
         consentText: "I agree with the terms described in the Consent section of the Company's webpage",
         successScreen: {

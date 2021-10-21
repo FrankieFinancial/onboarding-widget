@@ -122,7 +122,9 @@ token: {Frankie generated token}
 ```
 **Note:** The successful response body will include a configuration object that will most likely not be useful to your use case, but is used by our frontend to customise its behaviour. The configuration includes a message dictionary that might seem like error messages, but they aren't. You may disconsider anything found in the successful response body.
 4. Add both the link to the desired font family and script tag to the Smart UI .js file in the head of the webpage. Since v2.3.0 you also need to initialise the Smart UI by calling a global javascript function, where you pass the [configuration](#configuration) object and the applicant reference. The initialisation needs to be done after the page is mounted, so the widget element is already available. In plain html that is in the event body.onload (see snippet below).
-    1. "Applicant reference number" is your own internal ID. If you have previously sent this data to Frankie, the service will automatically retrieve that data and attempt to pre-populate this Smart UI with the data available.
+
+    1. "Applicant reference number" is your own internal ID. If you have previously sent this data to Frankie, the service will automatically retrieve that data and attempt to pre-populate this Smart UI with the data available.\
+    *Note*: When initialising, the widget makes an applicant search request to find out if the applicant reference already exists and if so, to prefill the widget with the applicant details. When the applicant is not found, the request returns a HTTP response of 404 not found, which might look like an error when integrating with the widget, but it is not and can be ignored.
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <script src="https://assets.frankiefinancial.io/onboarding/latest/ff-onboarding-widget.umd.min.js"></script>
